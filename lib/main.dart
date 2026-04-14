@@ -1,23 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:scrape_application/features/auth/screens/register_screen.dart';
-import 'features/auth/screens/login_screen.dart';
+import 'package:scrape_application/core/theme/app_theme.dart';
+import 'package:scrape_application/shared/widgets/bottom_nav_bar.dart';
 
 void main() {
-  runApp(const MainApp());
+  runApp(const MyApp());
 }
 
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-      designSize: Size(423, 930),
-      minTextAdapt: true,
-      splitScreenMode: true,
-      builder: (context, child) {
-        return MaterialApp(home: RegisterScreen());
+      designSize: const Size(375, 812),
+      builder: (_, child) {
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          theme: AppTheme.lightTheme,
+          darkTheme: AppTheme.darkTheme,
+          themeMode: ThemeMode.system,
+          home: AppBottomNav(),
+        );
       },
     );
   }

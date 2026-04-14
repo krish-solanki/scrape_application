@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:scrape_application/core/constants/app_colors.dart';
 import 'package:scrape_application/core/constants/app_strings.dart';
-import 'package:scrape_application/core/constants/app_text_style.dart';
 import 'package:scrape_application/features/auth/screens/register_screen.dart';
 import 'package:scrape_application/features/auth/widgets/custom_button.dart';
 import 'package:scrape_application/features/auth/widgets/custom_textfield.dart';
@@ -13,20 +11,27 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final strings = AppStrings("en");
+    final theme = Theme.of(context);
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text('Welcome Back', style: AppTextStyles.heading),
+                Text(
+                  'Welcome Back',
+                  style: theme.textTheme.headlineLarge,
+                ),
 
                 SizedBox(height: 5.h),
 
-                Text('Sign in to your account', style: AppTextStyles.body),
+                Text(
+                  'Sign in to your account',
+                  style: theme.textTheme.bodyMedium,
+                ),
 
                 SizedBox(height: 20.h),
 
@@ -39,9 +44,11 @@ class LoginScreen extends StatelessWidget {
                       horizontal: 16.w,
                     ),
                     decoration: BoxDecoration(
-                      color: AppColors.card,
+                      color: theme.colorScheme.surface,
                       borderRadius: BorderRadius.circular(16.r),
-                      border: Border.all(color: AppColors.border),
+                      border: Border.all(
+                        color: theme.dividerColor,
+                      ),
                     ),
                     child: Column(
                       children: [
@@ -66,8 +73,8 @@ class LoginScreen extends StatelessWidget {
                           alignment: Alignment.centerRight,
                           child: Text(
                             strings.forgotPassword,
-                            style: AppTextStyles.label.copyWith(
-                              color: AppColors.highlight,
+                            style: theme.textTheme.labelMedium?.copyWith(
+                              color: theme.colorScheme.secondary,
                             ),
                           ),
                         ),
@@ -75,12 +82,13 @@ class LoginScreen extends StatelessWidget {
                         SizedBox(height: 20.h),
 
                         buildButton(
+                          context: context,
                           text: strings.login,
                           onPressed: () {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => RegisterScreen(),
+                                builder: (context) => const RegisterScreen(),
                               ),
                             );
                           },
@@ -95,12 +103,15 @@ class LoginScreen extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(strings.dontHaveAccount, style: AppTextStyles.body),
+                    Text(
+                      strings.dontHaveAccount,
+                      style: theme.textTheme.bodyMedium,
+                    ),
                     SizedBox(width: 5.w),
                     Text(
                       strings.signUp,
-                      style: AppTextStyles.subHeading.copyWith(
-                        color: AppColors.highlight,
+                      style: theme.textTheme.titleMedium?.copyWith(
+                        color: theme.colorScheme.secondary,
                       ),
                     ),
                   ],

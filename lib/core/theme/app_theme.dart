@@ -6,16 +6,16 @@ class AppTheme {
   // 🔷 LIGHT THEME
   static ThemeData lightTheme = ThemeData(
     brightness: Brightness.light,
-    scaffoldBackgroundColor: Colors.white,
+    scaffoldBackgroundColor: AppColors.background,
 
     primaryColor: AppColors.primary,
 
-    colorScheme: const ColorScheme.light(
+    colorScheme:  ColorScheme.light(
       primary: AppColors.primary,
       secondary: AppColors.highlight,
     ),
 
-    textTheme: const TextTheme(
+    textTheme:  TextTheme(
       headlineLarge: AppTextStyles.heading,
       titleMedium: AppTextStyles.subHeading,
       bodyMedium: AppTextStyles.body,
@@ -48,12 +48,12 @@ class AppTheme {
 
     primaryColor: AppColors.primary,
 
-    colorScheme: const ColorScheme.dark(
+    colorScheme:  ColorScheme.dark(
       primary: AppColors.primary,
       secondary: AppColors.highlight,
     ),
 
-    textTheme: const TextTheme(
+    textTheme:  TextTheme(
       headlineLarge: AppTextStyles.heading,
       titleMedium: AppTextStyles.subHeading,
       bodyMedium: AppTextStyles.body,

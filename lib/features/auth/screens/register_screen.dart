@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:scrape_application/core/constants/app_colors.dart';
 import 'package:scrape_application/core/constants/app_strings.dart';
-import 'package:scrape_application/core/constants/app_text_style.dart';
 import 'package:scrape_application/features/auth/screens/login_screen.dart';
 import 'package:scrape_application/features/auth/widgets/custom_button.dart';
 import 'package:scrape_application/features/auth/widgets/custom_textfield.dart';
@@ -20,9 +18,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     final strings = AppStrings("en");
+    final theme = Theme.of(context); 
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: SafeArea(
         child: SingleChildScrollView(
           child: ConstrainedBox(
@@ -40,13 +39,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       SizedBox(height: 20.h),
 
                       // 🔹 Title
-                      Text('Create Account', style: AppTextStyles.heading),
+                      Text(
+                        'Create Account',
+                        style: theme.textTheme.headlineLarge,
+                      ),
 
                       SizedBox(height: 6.h),
 
                       Text(
                         "Sign up to get started!",
-                        style: AppTextStyles.body,
+                        style: theme.textTheme.bodyMedium,
                       ),
 
                       SizedBox(height: 25.h),
@@ -56,9 +58,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         width: double.infinity,
                         padding: EdgeInsets.all(16.w),
                         decoration: BoxDecoration(
-                          color: AppColors.card,
+                          color: theme.colorScheme.surface,
                           borderRadius: BorderRadius.circular(16.r),
-                          border: Border.all(color: AppColors.border),
+                          border: Border.all(
+                            color: theme.dividerColor,
+                          ),
                         ),
                         child: Column(
                           children: [
@@ -99,7 +103,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                       SizedBox(height: 16.h),
 
-                      // 🔹 Checkbox (center aligned)
+                      // 🔹 Checkbox
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -107,13 +111,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             scale: 0.9,
                             child: Checkbox(
                               value: isChecked,
-                              materialTapTargetSize:
-                                  MaterialTapTargetSize.shrinkWrap,
-                              visualDensity: VisualDensity.compact,
-                              activeColor: AppColors.highlight,
-                              side: BorderSide(color: AppColors.textSecondary),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(4.r),
+                              activeColor:
+                                  theme.colorScheme.secondary,
+                              side: BorderSide(
+                                color: theme.dividerColor,
                               ),
                               onChanged: (value) {
                                 setState(() {
@@ -129,13 +130,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             child: RichText(
                               textAlign: TextAlign.center,
                               text: TextSpan(
-                                style: AppTextStyles.body,
+                                style: theme.textTheme.bodyMedium,
                                 children: [
                                   const TextSpan(text: "I accept the "),
                                   TextSpan(
                                     text: "Terms of Service",
                                     style: TextStyle(
-                                      color: AppColors.highlight,
+                                      color:
+                                          theme.colorScheme.secondary,
                                       fontWeight: FontWeight.w600,
                                     ),
                                   ),
@@ -143,7 +145,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   TextSpan(
                                     text: "Privacy Policy",
                                     style: TextStyle(
-                                      color: AppColors.highlight,
+                                      color:
+                                          theme.colorScheme.secondary,
                                       fontWeight: FontWeight.w600,
                                     ),
                                   ),
@@ -158,12 +161,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                       // 🔹 Button
                       buildButton(
+                        context: context,
                         text: strings.signUp,
                         onPressed: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => LoginScreen(),
+                              builder: (context) => const LoginScreen(),
                             ),
                           );
                         },
@@ -177,13 +181,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         children: [
                           Text(
                             "Already have an account?",
-                            style: AppTextStyles.body,
+                            style: theme.textTheme.bodyMedium,
                           ),
                           SizedBox(width: 6.w),
                           Text(
-                            'sign In',
-                            style: AppTextStyles.subHeading.copyWith(
-                              color: AppColors.highlight,
+                            strings.signIn,
+                            style: theme.textTheme.titleMedium?.copyWith(
+                              color: theme.colorScheme.secondary,
                             ),
                           ),
                         ],

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'app_colors.dart';
 
 class AppLoader extends StatefulWidget {
   const AppLoader({super.key});
@@ -30,8 +29,10 @@ class _AppLoaderState extends State<AppLoader>
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Container(
-      color: AppColors.background.withOpacity(0.9),
+      color: theme.scaffoldBackgroundColor.withOpacity(0.9),
       child: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -42,11 +43,14 @@ class _AppLoaderState extends State<AppLoader>
                 width: 90.w,
                 height: 90.w,
                 decoration: BoxDecoration(
-                  shape: BoxShape.circle, 
-                  border: Border.all(color: AppColors.primary, width: 4.w),
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: theme.colorScheme.primary,
+                    width: 4.w,
+                  ),
                   boxShadow: [
                     BoxShadow(
-                      color: AppColors.primary.withOpacity(0.6),
+                      color: theme.colorScheme.primary.withOpacity(0.6),
                       blurRadius: 25,
                       spreadRadius: 2,
                     ),
@@ -55,7 +59,7 @@ class _AppLoaderState extends State<AppLoader>
                 child: Center(
                   child: Icon(
                     Icons.precision_manufacturing,
-                    color: AppColors.highlight,
+                    color: theme.colorScheme.secondary,
                     size: 32.sp,
                   ),
                 ),
@@ -66,9 +70,8 @@ class _AppLoaderState extends State<AppLoader>
 
             Text(
               "Processing...",
-              style: TextStyle(
-                color: AppColors.primary,
-                fontSize: 16.sp,
+              style: theme.textTheme.titleMedium?.copyWith(
+                color: theme.colorScheme.primary,
                 fontWeight: FontWeight.w600,
               ),
             ),
