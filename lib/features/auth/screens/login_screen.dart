@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:scrape_application/core/constants/app_colors.dart';
 import 'package:scrape_application/core/constants/app_strings.dart';
 import 'package:scrape_application/core/constants/app_text_style.dart';
+import 'package:scrape_application/features/auth/screens/register_screen.dart';
 import 'package:scrape_application/features/auth/widgets/custom_button.dart';
 import 'package:scrape_application/features/auth/widgets/custom_textfield.dart';
 
@@ -73,7 +74,17 @@ class LoginScreen extends StatelessWidget {
 
                         SizedBox(height: 20.h),
 
-                        buildButton(text: strings.login, onPressed: () {}),
+                        buildButton(
+                          text: strings.login,
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => RegisterScreen(),
+                              ),
+                            );
+                          },
+                        ),
                       ],
                     ),
                   ),
