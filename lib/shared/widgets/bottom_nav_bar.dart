@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:scrape_application/features/auth/screens/login_screen.dart';
 import 'package:scrape_application/features/auth/screens/register_screen.dart';
+import 'package:scrape_application/features/dashboard/screens/dashboard_screen.dart';
 
 class AppBottomNav extends StatefulWidget {
   const AppBottomNav({super.key});
@@ -14,7 +15,7 @@ class _AppBottomNavState extends State<AppBottomNav> {
   int selectedIndex = 0;
 
   final List<Widget> screens = const [
-    LoginScreen(),
+    DashboardScreen(),
     LoginScreen(),
     LoginScreen(),
     RegisterScreen(),
@@ -39,9 +40,7 @@ class _AppBottomNavState extends State<AppBottomNav> {
         decoration: BoxDecoration(
           color: theme.colorScheme.surface,
           borderRadius: BorderRadius.circular(20.r),
-          border: Border.all(
-            color: theme.dividerColor,
-          ),
+          border: Border.all(color: theme.dividerColor),
         ),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(20.r),
