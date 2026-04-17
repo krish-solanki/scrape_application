@@ -36,6 +36,26 @@ class _InventoryScreenState extends State<InventoryScreen> {
 
               SizedBox(height: 20.h),
 
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
+                decoration: BoxDecoration(
+                  color: AppColors.surface,
+                  borderRadius: BorderRadius.circular(12.r),
+                  border: Border.all(color: AppColors.primary),
+                ),
+                child: Row(
+                  children: [
+                    Icon(Icons.search, color: AppColors.primary, size: 20.sp),
+                    SizedBox(width: 10.w),
+                    Text("Search", style: AppTextStyles.body),
+                    Spacer(),
+                    Icon(Icons.tune, color: AppColors.primary, size: 20.sp),
+                  ],
+                ),
+              ),
+
+              SizedBox(height: 15.h),
+
               Row(
                 children: [
                   buildNavTab("Weight Type"),
@@ -56,8 +76,10 @@ class _InventoryScreenState extends State<InventoryScreen> {
                 ),
                 child: Row(
                   children: [
-                    Icon(Icons.warning_amber_rounded,
-                        color: AppColors.highlight),
+                    Icon(
+                      Icons.warning_amber_rounded,
+                      color: AppColors.highlight,
+                    ),
                     SizedBox(width: 10.w),
                     Expanded(
                       child: Text(
@@ -90,9 +112,7 @@ class _InventoryScreenState extends State<InventoryScreen> {
                       flex: 2,
                       child: Text("LOCATION", style: AppTextStyles.label),
                     ),
-                    Expanded(
-                      child: Text("STATUS", style: AppTextStyles.label),
-                    ),
+                    Expanded(child: Text("STATUS", style: AppTextStyles.label)),
                   ],
                 ),
               ),
@@ -102,14 +122,15 @@ class _InventoryScreenState extends State<InventoryScreen> {
               Expanded(
                 child: ListView(
                   children: [
-                    buildRow("001012", "Rajkot", "380 kg",
-                        AppColors.warning),
-                    buildRow("000796", "Surat", "115 kg",
-                        AppColors.success),
-                    buildRow("001004", "Bengaluru", "260 kg",
-                        AppColors.success),
-                    buildRow("000450", "Rajkot", "210 kg",
-                        AppColors.warning),
+                    buildRow("001012", "Rajkot", "380 kg", AppColors.warning),
+                    buildRow("000796", "Surat", "115 kg", AppColors.success),
+                    buildRow(
+                      "001004",
+                      "Bengaluru",
+                      "260 kg",
+                      AppColors.success,
+                    ),
+                    buildRow("000450", "Rajkot", "210 kg", AppColors.warning),
 
                     SizedBox(height: 10.h),
 
@@ -122,14 +143,15 @@ class _InventoryScreenState extends State<InventoryScreen> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text("Showing 10 of 104",
-                              style: AppTextStyles.body),
-                          Icon(Icons.arrow_forward_ios,
-                              size: 14.sp,
-                              color: AppColors.textSecondary),
+                          Text("Showing 10 of 104", style: AppTextStyles.body),
+                          Icon(
+                            Icons.arrow_forward_ios,
+                            size: 14.sp,
+                            color: AppColors.textSecondary,
+                          ),
                         ],
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),

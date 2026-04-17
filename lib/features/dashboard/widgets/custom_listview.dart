@@ -28,7 +28,7 @@ Widget buildListview() {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("Stainless Steel 304 Offcut", style: AppTextStyles.subHeading),
+            Text("Stainless Steel 304", style: AppTextStyles.subHeading),
             SizedBox(height: 4.h),
             Text("34 Stramgs", style: AppTextStyles.body),
           ],

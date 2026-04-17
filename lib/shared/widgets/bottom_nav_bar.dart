@@ -4,6 +4,7 @@ import 'package:scrape_application/features/auth/screens/login_screen.dart';
 import 'package:scrape_application/features/auth/screens/register_screen.dart';
 import 'package:scrape_application/features/dashboard/screens/dashboard_screen.dart';
 import 'package:scrape_application/features/inventory/screen/inventory_screen.dart';
+import 'package:scrape_application/features/scan/screen/scan_screen.dart';
 
 class AppBottomNav extends StatefulWidget {
   const AppBottomNav({super.key});
@@ -17,7 +18,7 @@ class _AppBottomNavState extends State<AppBottomNav> {
 
   final List<Widget> screens = const [
     DashboardScreen(),
-    LoginScreen(),
+    ScanScreen(),
     InventoryScreen(),
     RegisterScreen(),
   ];
@@ -37,10 +38,8 @@ class _AppBottomNavState extends State<AppBottomNav> {
       body: screens[selectedIndex],
 
       bottomNavigationBar: Container(
-        margin: EdgeInsets.all(10.w),
         decoration: BoxDecoration(
           color: theme.colorScheme.surface,
-          borderRadius: BorderRadius.circular(20.r),
           border: Border.all(color: theme.dividerColor),
         ),
         child: ClipRRect(
