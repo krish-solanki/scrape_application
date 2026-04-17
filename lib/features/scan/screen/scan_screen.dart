@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:scrape_application/core/constants/app_colors.dart';
@@ -15,12 +16,14 @@ class _ScanScreenState extends State<ScanScreen> {
   CameraController? controller;
   Future<void>? _initializeControllerFuture;
 
+  File? capturedImage;
+
   @override
   void initState() {
     super.initState();
 
     controller = CameraController(
-      cameras[0],
+      cameras.first,
       ResolutionPreset.high,
     );
 
@@ -43,15 +46,23 @@ class _ScanScreenState extends State<ScanScreen> {
           if (snapshot.connectionState == ConnectionState.done) {
             return Stack(
               children: [
-                Positioned.fill(child: CameraPreview(controller!)),
+                Positioned.fill(
+                  child: capturedImage == null
+                      ? CameraPreview(controller!)
+                      : Image.file(
+                          capturedImage!,
+                          fit: BoxFit.cover,
+                        ),
+                ),
 
+                // 🔝 TOP BAR
                 Positioned(
                   top: 40,
                   left: 16,
                   right: 16,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
+                    children: const [
                       Icon(Icons.arrow_back, color: Colors.white),
                       Text(
                         "Scan & Measure",
@@ -62,6 +73,7 @@ class _ScanScreenState extends State<ScanScreen> {
                   ),
                 ),
 
+                // 🔲 SCAN BOX
                 Center(
                   child: SizedBox(
                     width: 250,
@@ -77,13 +89,13 @@ class _ScanScreenState extends State<ScanScreen> {
                   ),
                 ),
 
-                // 📊 TEXT INFO
+                // 📊 TEXT
                 Positioned(
                   bottom: 180,
                   left: 20,
                   right: 20,
                   child: Column(
-                    children: [
+                    children: const [
                       Text(
                         "DETECTION: STAINLESS STEEL 304, 85% CONFIDENCE",
                         style: TextStyle(color: Colors.white, fontSize: 12),
@@ -98,14 +110,14 @@ class _ScanScreenState extends State<ScanScreen> {
                   ),
                 ),
 
-                // 🎯 CENTER BUTTON
+                // 🎯 CAPTURE BUTTON
                 Positioned(
                   bottom: 90,
                   left: 0,
                   right: 0,
                   child: Center(
                     child: GestureDetector(
-                      onTap: _captureImage, // 👈 capture
+                      onTap: _captureImage,
                       child: Container(
                         width: 70,
                         height: 70,
@@ -119,7 +131,7 @@ class _ScanScreenState extends State<ScanScreen> {
                             ),
                           ],
                         ),
-                        child: Icon(Icons.camera, color: Colors.black),
+                        child: const Icon(Icons.camera, color: Colors.black),
                       ),
                     ),
                   ),
@@ -130,7 +142,7 @@ class _ScanScreenState extends State<ScanScreen> {
                   bottom: 20,
                   left: 30,
                   right: 30,
-                  child: Row(
+                  child: const Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Icon(Icons.photo, color: Colors.white),
@@ -140,21 +152,32 @@ class _ScanScreenState extends State<ScanScreen> {
                 ),
               ],
             );
+          } else if (snapshot.hasError) {
+            return const Center(
+              child: Text(
+                "Camera Error",
+                style: TextStyle(color: Colors.white),
+              ),
+            );
           } else {
-            return const Center(child: CircularProgressIndicator());
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
           }
         },
       ),
     );
   }
 
-  // 📸 CAPTURE IMAGE FUNCTION
+  // 📸 CAPTURE IMAGE
   Future<void> _captureImage() async {
     try {
       await _initializeControllerFuture;
       final image = await controller!.takePicture();
-      print("Image path: ${image.path}");
-      // 👉 You can navigate or send to next screen here
+
+      setState(() {
+        capturedImage = File(image.path);
+      });
     } catch (e) {
       print(e);
     }

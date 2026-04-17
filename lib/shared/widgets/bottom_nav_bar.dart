@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:scrape_application/features/auth/screens/login_screen.dart';
 import 'package:scrape_application/features/auth/screens/register_screen.dart';
 import 'package:scrape_application/features/dashboard/screens/dashboard_screen.dart';
 import 'package:scrape_application/features/inventory/screen/inventory_screen.dart';
