@@ -17,7 +17,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final strings = AppStrings("en");
+    final strings = AppStrings();
     final theme = Theme.of(context); 
 
     return Scaffold(
@@ -40,14 +40,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                       // 🔹 Title
                       Text(
-                        'Create Account',
+                        strings.createAccount,
                         style: theme.textTheme.headlineLarge,
                       ),
 
                       SizedBox(height: 6.h),
 
                       Text(
-                        "Sign up to get started!",
+                        strings.signUpGetStarted,
                         style: theme.textTheme.bodyMedium,
                       ),
 
@@ -68,7 +68,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           children: [
                             buildTextField(
                               context: context,
-                              hintText: 'Enter full name',
+                              hintText: strings.enterName,
                               icon: Icons.person,
                             ),
 
@@ -76,7 +76,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                             buildTextField(
                               context: context,
-                              hintText: 'Enter your email',
+                              hintText: strings.enterEmail,
                               icon: Icons.email,
                             ),
 
@@ -84,7 +84,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                             buildTextField(
                               context: context,
-                              hintText: 'Create a password',
+                              hintText: strings.enterPassword,
                               icon: Icons.lock_outline,
                               isPassword: true,
                             ),
@@ -93,7 +93,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                             buildTextField(
                               context: context,
-                              hintText: 'Confirm password',
+                              hintText: strings.enterConfirmPassword,
                               icon: Icons.lock_outline,
                               isPassword: true,
                             ),
@@ -132,9 +132,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               text: TextSpan(
                                 style: theme.textTheme.bodyMedium,
                                 children: [
-                                  const TextSpan(text: "I accept the "),
+                                  TextSpan(text: strings.acceptTerms),
                                   TextSpan(
-                                    text: "Terms of Service",
+                                    text: strings.termsOfService,
                                     style: TextStyle(
                                       color:
                                           theme.colorScheme.secondary,
@@ -143,7 +143,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   ),
                                   const TextSpan(text: " & "),
                                   TextSpan(
-                                    text: "Privacy Policy",
+                                    text: strings.privacyPolicy,
                                     style: TextStyle(
                                       color:
                                           theme.colorScheme.secondary,
@@ -180,7 +180,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            "Already have an account?",
+                            strings.alreadyHaveAccount,
                             style: theme.textTheme.bodyMedium,
                           ),
                           SizedBox(width: 6.w),

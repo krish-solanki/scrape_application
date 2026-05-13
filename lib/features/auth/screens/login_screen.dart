@@ -10,7 +10,7 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final strings = AppStrings("en");
+    final strings = AppStrings();
     final theme = Theme.of(context);
 
     return Scaffold(
@@ -22,14 +22,14 @@ class LoginScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  'Welcome Back',
+                  strings.welcomeBack,
                   style: theme.textTheme.headlineLarge,
                 ),
 
                 SizedBox(height: 5.h),
 
                 Text(
-                  'Sign in to your account',
+                  strings.signIn,
                   style: theme.textTheme.bodyMedium,
                 ),
 
