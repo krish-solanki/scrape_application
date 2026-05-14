@@ -62,7 +62,7 @@ class _InventoryScreenState extends State<InventoryScreen> {
                   SizedBox(width: 8.w),
                   buildNavTab("Location"),
                   SizedBox(width: 8.w),
-                  buildNavTab("Critical Weight"),
+                  buildNavTab("Weight"),
                 ],
               ),
 

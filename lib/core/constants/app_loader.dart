@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:scrape_application/core/constants/app_colors.dart';
+import 'package:scrape_application/core/constants/app_text_style.dart';
 
 class AppLoader extends StatefulWidget {
   const AppLoader({super.key});
@@ -15,6 +17,7 @@ class _AppLoaderState extends State<AppLoader>
   @override
   void initState() {
     super.initState();
+
     controller = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 2),
@@ -29,37 +32,41 @@ class _AppLoaderState extends State<AppLoader>
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return Container(
-      color: theme.scaffoldBackgroundColor.withOpacity(0.9),
+      color: AppColors.background.withOpacity(0.95),
+
       child: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
+
           children: [
             RotationTransition(
               turns: controller,
+
               child: Container(
                 width: 90.w,
                 height: 90.w,
+
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  border: Border.all(
-                    color: theme.colorScheme.primary,
-                    width: 4.w,
-                  ),
+
+                  color: AppColors.card,
+
+                  border: Border.all(color: AppColors.primary, width: 4.w),
+
                   boxShadow: [
                     BoxShadow(
-                      color: theme.colorScheme.primary.withOpacity(0.6),
+                      color: AppColors.primary.withOpacity(0.35),
                       blurRadius: 25,
                       spreadRadius: 2,
                     ),
                   ],
                 ),
+
                 child: Center(
                   child: Icon(
                     Icons.precision_manufacturing,
-                    color: theme.colorScheme.secondary,
+                    color: AppColors.highlight,
                     size: 32.sp,
                   ),
                 ),
@@ -70,8 +77,8 @@ class _AppLoaderState extends State<AppLoader>
 
             Text(
               "Processing...",
-              style: theme.textTheme.titleMedium?.copyWith(
-                color: theme.colorScheme.primary,
+              style: AppTextStyles.subHeading.copyWith(
+                color: AppColors.primary,
                 fontWeight: FontWeight.w600,
               ),
             ),

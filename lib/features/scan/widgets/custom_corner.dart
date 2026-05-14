@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:scrape_application/core/constants/app_colors.dart';
 
 Widget buildCorner({required bool top, required bool left}) {
   return Positioned(
@@ -6,13 +8,28 @@ Widget buildCorner({required bool top, required bool left}) {
     bottom: top ? null : 0,
     left: left ? 0 : null,
     right: left ? null : 0,
+
     child: Container(
-      width: 30,
-      height: 30,
+      width: 34.w,
+      height: 34.w,
+
       decoration: BoxDecoration(
         border: Border(
-          top: BorderSide(color: Colors.tealAccent, width: 3),
-          left: BorderSide(color: Colors.tealAccent, width: 3),
+          top: top
+              ? BorderSide(color: AppColors.primary, width: 4.w)
+              : BorderSide.none,
+
+          bottom: !top
+              ? BorderSide(color: AppColors.primary, width: 4.w)
+              : BorderSide.none,
+
+          left: left
+              ? BorderSide(color: AppColors.primary, width: 4.w)
+              : BorderSide.none,
+
+          right: !left
+              ? BorderSide(color: AppColors.primary, width: 4.w)
+              : BorderSide.none,
         ),
       ),
     ),

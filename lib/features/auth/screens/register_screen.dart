@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:scrape_application/core/constants/app_colors.dart';
 import 'package:scrape_application/core/constants/app_strings.dart';
+import 'package:scrape_application/core/constants/app_text_style.dart';
+import 'package:scrape_application/core/utils/loaderHelper.dart';
 import 'package:scrape_application/features/auth/screens/login_screen.dart';
 import 'package:scrape_application/features/auth/widgets/custom_button.dart';
 import 'package:scrape_application/features/auth/widgets/custom_textfield.dart';
@@ -18,10 +21,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     final strings = AppStrings();
-    final theme = Theme.of(context); 
 
     return Scaffold(
-      backgroundColor: theme.scaffoldBackgroundColor,
+      backgroundColor: AppColors.background,
       body: SafeArea(
         child: SingleChildScrollView(
           child: ConstrainedBox(
@@ -38,31 +40,24 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     children: [
                       SizedBox(height: 20.h),
 
-                      // 🔹 Title
                       Text(
                         strings.createAccount,
-                        style: theme.textTheme.headlineLarge,
+                        style: AppTextStyles.heading.copyWith(fontSize: 28.sp),
                       ),
 
                       SizedBox(height: 6.h),
 
-                      Text(
-                        strings.signUpGetStarted,
-                        style: theme.textTheme.bodyMedium,
-                      ),
+                      Text(strings.signUpGetStarted, style: AppTextStyles.body),
 
                       SizedBox(height: 25.h),
 
-                      // 🔹 Card
                       Container(
                         width: double.infinity,
                         padding: EdgeInsets.all(16.w),
                         decoration: BoxDecoration(
-                          color: theme.colorScheme.surface,
-                          borderRadius: BorderRadius.circular(16.r),
-                          border: Border.all(
-                            color: theme.dividerColor,
-                          ),
+                          color: AppColors.card,
+                          borderRadius: BorderRadius.circular(18.r),
+                          border: Border.all(color: AppColors.border),
                         ),
                         child: Column(
                           children: [
@@ -103,7 +98,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                       SizedBox(height: 16.h),
 
-                      // 🔹 Checkbox
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -111,11 +105,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             scale: 0.9,
                             child: Checkbox(
                               value: isChecked,
-                              activeColor:
-                                  theme.colorScheme.secondary,
-                              side: BorderSide(
-                                color: theme.dividerColor,
-                              ),
+                              activeColor: AppColors.highlight,
+                              checkColor: Colors.black,
+                              side: BorderSide(color: AppColors.border),
                               onChanged: (value) {
                                 setState(() {
                                   isChecked = value!;
@@ -130,14 +122,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             child: RichText(
                               textAlign: TextAlign.center,
                               text: TextSpan(
-                                style: theme.textTheme.bodyMedium,
+                                style: AppTextStyles.body,
                                 children: [
                                   TextSpan(text: strings.acceptTerms),
                                   TextSpan(
                                     text: strings.termsOfService,
                                     style: TextStyle(
-                                      color:
-                                          theme.colorScheme.secondary,
+                                      color: AppColors.highlight,
                                       fontWeight: FontWeight.w600,
                                     ),
                                   ),
@@ -145,8 +136,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   TextSpan(
                                     text: strings.privacyPolicy,
                                     style: TextStyle(
-                                      color:
-                                          theme.colorScheme.secondary,
+                                      color: AppColors.highlight,
                                       fontWeight: FontWeight.w600,
                                     ),
                                   ),
@@ -159,35 +149,34 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                       SizedBox(height: 20.h),
 
-                      // 🔹 Button
                       buildButton(
                         context: context,
                         text: strings.signUp,
                         onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const LoginScreen(),
-                            ),
-                          );
+                          redirection(context, LoginScreen());
                         },
                       ),
 
                       SizedBox(height: 20.h),
 
-                      // 🔹 Bottom Text
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
                             strings.alreadyHaveAccount,
-                            style: theme.textTheme.bodyMedium,
+                            style: AppTextStyles.body,
                           ),
+
                           SizedBox(width: 6.w),
-                          Text(
-                            strings.signIn,
-                            style: theme.textTheme.titleMedium?.copyWith(
-                              color: theme.colorScheme.secondary,
+
+                          GestureDetector(
+                            onTap: () => redirection(context, LoginScreen()),
+                            child: Text(
+                              strings.signIn,
+                              style: AppTextStyles.subHeading.copyWith(
+                                color: AppColors.highlight,
+                                fontSize: 15.sp,
+                              ),
                             ),
                           ),
                         ],
@@ -202,6 +191,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  void redirection(BuildContext context, Widget widget) async {
+    LoaderHelper.show(context);
+    await Future.delayed(const Duration(seconds: 3));
+    LoaderHelper.hide(context);
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (context) => widget),
+      (route) => false,
     );
   }
 }

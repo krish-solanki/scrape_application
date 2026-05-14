@@ -1,7 +1,6 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:scrape_application/core/theme/app_theme.dart';
 import 'package:scrape_application/shared/widgets/bottom_nav_bar.dart';
 
 late List<CameraDescription> cameras;
@@ -22,9 +21,6 @@ class MyApp extends StatelessWidget {
       builder: (_, child) {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
-          theme: AppTheme.lightTheme,
-          darkTheme: AppTheme.lightTheme,
-          themeMode: ThemeMode.system,
           home: AppBottomNav(),
         );
       },

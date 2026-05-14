@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:scrape_application/core/constants/app_colors.dart';
 import 'package:scrape_application/features/scan/widgets/custom_corner.dart';
 import 'package:scrape_application/main.dart';
@@ -22,10 +23,7 @@ class _ScanScreenState extends State<ScanScreen> {
   void initState() {
     super.initState();
 
-    controller = CameraController(
-      cameras.first,
-      ResolutionPreset.high,
-    );
+    controller = CameraController(cameras.first, ResolutionPreset.high);
 
     _initializeControllerFuture = controller!.initialize();
   }
@@ -46,16 +44,36 @@ class _ScanScreenState extends State<ScanScreen> {
           if (snapshot.connectionState == ConnectionState.done) {
             return Stack(
               children: [
-                Positioned.fill(
-                  child: capturedImage == null
-                      ? CameraPreview(controller!)
-                      : Image.file(
-                          capturedImage!,
-                          fit: BoxFit.cover,
-                        ),
+                Positioned.fill(child: Container(color: Colors.black)),
+
+                Center(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(16),
+                    child: SizedBox(
+                      width: 220.w,
+                      height: 250.h,
+                      child: capturedImage == null
+                          ? CameraPreview(controller!)
+                          : Image.file(capturedImage!, fit: BoxFit.cover),
+                    ),
+                  ),
                 ),
 
-                // 🔝 TOP BAR
+                Center(
+                  child: SizedBox(
+                    width: 220.w,
+                    height: 250.h,
+                    child: Stack(
+                      children: [
+                        buildCorner(top: true, left: true),
+                        buildCorner(top: true, left: false),
+                        buildCorner(top: false, left: true),
+                        buildCorner(top: false, left: false),
+                      ],
+                    ),
+                  ),
+                ),
+
                 Positioned(
                   top: 40,
                   left: 16,
@@ -73,23 +91,6 @@ class _ScanScreenState extends State<ScanScreen> {
                   ),
                 ),
 
-                // 🔲 SCAN BOX
-                Center(
-                  child: SizedBox(
-                    width: 250,
-                    height: 180,
-                    child: Stack(
-                      children: [
-                        buildCorner(top: true, left: true),
-                        buildCorner(top: true, left: false),
-                        buildCorner(top: false, left: true),
-                        buildCorner(top: false, left: false),
-                      ],
-                    ),
-                  ),
-                ),
-
-                // 📊 TEXT
                 Positioned(
                   bottom: 180,
                   left: 20,
@@ -97,20 +98,14 @@ class _ScanScreenState extends State<ScanScreen> {
                   child: Column(
                     children: const [
                       Text(
-                        "DETECTION: STAINLESS STEEL 304, 85% CONFIDENCE",
-                        style: TextStyle(color: Colors.white, fontSize: 12),
+                        "Align item within frame",
+                        style: TextStyle(color: Colors.white, fontSize: 13),
                         textAlign: TextAlign.center,
-                      ),
-                      SizedBox(height: 5),
-                      Text(
-                        "EST. DIMENSIONS: L: 32cm, W: 15cm, T: 6mm",
-                        style: TextStyle(color: Colors.white70, fontSize: 11),
                       ),
                     ],
                   ),
                 ),
 
-                // 🎯 CAPTURE BUTTON
                 Positioned(
                   bottom: 90,
                   left: 0,
@@ -137,7 +132,6 @@ class _ScanScreenState extends State<ScanScreen> {
                   ),
                 ),
 
-                // 📷 BOTTOM ICONS
                 Positioned(
                   bottom: 20,
                   left: 30,
@@ -160,16 +154,13 @@ class _ScanScreenState extends State<ScanScreen> {
               ),
             );
           } else {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
+            return const Center(child: CircularProgressIndicator());
           }
         },
       ),
     );
   }
 
-  // 📸 CAPTURE IMAGE
   Future<void> _captureImage() async {
     try {
       await _initializeControllerFuture;

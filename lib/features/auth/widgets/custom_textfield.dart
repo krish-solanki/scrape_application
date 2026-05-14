@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:scrape_application/core/constants/app_colors.dart';
+import 'package:scrape_application/core/constants/app_text_style.dart';
 
 Widget buildTextField({
   required BuildContext context,
@@ -8,59 +10,46 @@ Widget buildTextField({
   bool isPassword = false,
   TextEditingController? controller,
 }) {
-  final theme = Theme.of(context);
-
   return Container(
     margin: EdgeInsets.only(bottom: 12.h),
     decoration: BoxDecoration(
-      color: theme.colorScheme.surface,
-      borderRadius: BorderRadius.circular(12.r),
-      border: Border.all(
-        color: theme.dividerColor,
-      ),
+      color: AppColors.surface,
+      borderRadius: BorderRadius.circular(14.r),
+      border: Border.all(color: AppColors.border),
     ),
     child: TextField(
       controller: controller,
       obscureText: isPassword,
-      style: theme.textTheme.titleMedium,
-      cursorColor: theme.colorScheme.primary,
+      style: AppTextStyles.subHeading.copyWith(fontSize: 14.sp),
+      cursorColor: AppColors.primary,
       textAlignVertical: TextAlignVertical.center,
       decoration: InputDecoration(
         isDense: true,
         hintText: hintText,
-        hintStyle: theme.textTheme.bodyMedium,
+        hintStyle: AppTextStyles.body,
+
         border: InputBorder.none,
 
-        contentPadding:
-            EdgeInsets.symmetric(vertical: 10.h, horizontal: 12.w),
+        contentPadding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 12.w),
 
-        prefixIcon: Icon(
-          icon,
-          color: theme.colorScheme.primary,
-          size: 20.sp,
-        ),
+        prefixIcon: Icon(icon, color: AppColors.primary, size: 20.sp),
 
         suffixIcon: isPassword
             ? Icon(
                 Icons.visibility_off,
-                color: theme.textTheme.bodyMedium?.color,
+                color: AppColors.textSecondary,
                 size: 20.sp,
               )
             : null,
 
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12.r),
-          borderSide: BorderSide(
-            color: theme.dividerColor,
-          ),
+          borderRadius: BorderRadius.circular(14.r),
+          borderSide: BorderSide(color: AppColors.border),
         ),
 
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12.r),
-          borderSide: BorderSide(
-            color: theme.colorScheme.primary,
-            width: 1.5,
-          ),
+          borderRadius: BorderRadius.circular(14.r),
+          borderSide: BorderSide(color: AppColors.primary, width: 1.5),
         ),
       ),
     ),

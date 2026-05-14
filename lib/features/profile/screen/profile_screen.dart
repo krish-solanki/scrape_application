@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:scrape_application/core/constants/app_colors.dart';
 import 'package:scrape_application/core/constants/app_text_style.dart';
-import 'package:scrape_application/features/auth/widgets/custom_button.dart';
+import 'package:scrape_application/features/auth/screens/login_screen.dart';
 import 'package:scrape_application/features/auth/widgets/custom_textfield.dart';
 
 class EditProfileScreen extends StatefulWidget {
@@ -26,7 +26,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: 10.h),
-
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -169,13 +168,52 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         ),
                       ],
                     ),
+
+                    SizedBox(height: 16.h),
+
+                    Row(
+                      children: [
+                        Icon(Icons.fingerprint, color: AppColors.primary),
+                        SizedBox(width: 10.w),
+                        Expanded(
+                          child: Text("English", style: AppTextStyles.body),
+                        ),
+                        Switch(
+                          value: false,
+                          activeColor: AppColors.highlight,
+                          onChanged: (val) {
+                            setState(() {
+                              // AppStrings.isGujarati = !AppStrings.isGujarati;
+                            });
+                          },
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ),
 
               SizedBox(height: 30.h),
-
-              buildButton(context: context, text: 'Logout', onPressed: null),
+              SizedBox(
+                height: 45.h,
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => LoginScreen()),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.highlight,
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12.r),
+                    ),
+                  ),
+                  child: Text('Logout', style: AppTextStyles.button),
+                ),
+              ),
               SizedBox(height: 20.h),
             ],
           ),
