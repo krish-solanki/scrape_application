@@ -1,28 +1,41 @@
 class AppStrings {
-  final String language;
+  // Authentication
+  final String login = "Login";
+  final String welcomeBack = "Welcome Back";
+  final String signIn = "Sign In";
+  final String signInToAccount = "Sign in to your account";
+  final String dontHaveAccount = "Don't have an account?";
+  final String forgotPassword = "Forgot Password?";
+  final String signUp = "Sign Up";
+  final String enterEmail = "Enter your email";
+  final String enterName = "Enter your name";
+  final String enterConfirmPassword = "Enter Confirm Password";
+  final String enterPassword = "Enter your password";
+  final String createAccount = "Create Account";
+  final String signUpGetStarted = "Sign up to get started!";
+  final String alreadyHaveAccount = "Already have an account?";
+  final String termsOfService = "Terms of Service";
+  final String privacyPolicy = "Privacy Policy";
+  final String acceptTerms = "I accept the";
 
-  AppStrings(this.language);
+  // Bottom Navigation
+  final String home = 'Home';
+  final String scan = 'Scan';
+  final String inventory = 'Inventory';
+  final String profile = 'Profile';
 
-  // 🔷 Login
-  String get login => language == "gu" ? "લોગિન" : "Login";
-  String get welcomeBack =>
-      language == "gu" ? "પાછા સ્વાગત છે" : "Welcome Back";
-  String get signIn => language == "gu"
-      ? "તમારા એકાઉન્ટમાં સાઇન ઇન કરો"
-      : "Sign in to your account";
+  // Dashboard
+  final String dashboard = 'Dashboard';
+  final String search = 'Search';
+  final String totalScrapWeight = 'Total Scrap Weight';
+  final String potentialValue = 'Potential Value';
+  final String recentScan = 'Recent Scan';
+  final String stramgps = 'Stramgps';
 
-  // 🔷 Fields
-  String get enterEmail =>
-      language == "gu" ? "ઇમેઇલ દાખલ કરો" : "Enter your email";
-  String get enterPassword =>
-      language == "gu" ? "પાસવર્ડ દાખલ કરો" : "Enter your password";
-
-  // 🔷 Actions
-  String get forgotPassword =>
-      language == "gu" ? "પાસવર્ડ ભૂલી ગયા?" : "Forgot Password?";
-  String get signUp => language == "gu" ? "સાઇન અપ" : "Sign Up";
-
-  // 🔷 Bottom text
-  String get dontHaveAccount =>
-      language == "gu" ? "એકાઉન્ટ નથી?" : "Don't have an account?";
+  // Inventory Tab
+  final String materialType = 'Material Type';
+  final String location = 'Location';
+  final String criticalWeight = 'Critical Weight';
+  final String status = 'Status';
+  final String kg = 'KG';
 }

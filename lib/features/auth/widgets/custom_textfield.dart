@@ -14,22 +14,26 @@ Widget buildTextField({
     margin: EdgeInsets.only(bottom: 12.h),
     decoration: BoxDecoration(
       color: AppColors.surface,
-      borderRadius: BorderRadius.circular(12.r),
+      borderRadius: BorderRadius.circular(14.r),
       border: Border.all(color: AppColors.border),
     ),
     child: TextField(
       controller: controller,
       obscureText: isPassword,
-      style: AppTextStyles.subHeading,
+      style: AppTextStyles.subHeading.copyWith(fontSize: 14.sp),
       cursorColor: AppColors.primary,
       textAlignVertical: TextAlignVertical.center,
       decoration: InputDecoration(
         isDense: true,
         hintText: hintText,
         hintStyle: AppTextStyles.body,
+
         border: InputBorder.none,
-        contentPadding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 12.w),
+
+        contentPadding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 12.w),
+
         prefixIcon: Icon(icon, color: AppColors.primary, size: 20.sp),
+
         suffixIcon: isPassword
             ? Icon(
                 Icons.visibility_off,
@@ -39,18 +43,13 @@ Widget buildTextField({
             : null,
 
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12.r),
-          borderSide: BorderSide(
-            color: AppColors.border, // normal border
-          ),
+          borderRadius: BorderRadius.circular(14.r),
+          borderSide: BorderSide(color: AppColors.border),
         ),
 
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12.r),
-          borderSide: BorderSide(
-            color: AppColors.accent, // 🔥 active border color
-            width: 1.5,
-          ),
+          borderRadius: BorderRadius.circular(14.r),
+          borderSide: BorderSide(color: AppColors.primary, width: 1.5),
         ),
       ),
     ),

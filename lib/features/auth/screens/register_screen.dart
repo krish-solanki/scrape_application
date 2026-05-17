@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:scrape_application/core/constants/app_colors.dart';
 import 'package:scrape_application/core/constants/app_strings.dart';
 import 'package:scrape_application/core/constants/app_text_style.dart';
+import 'package:scrape_application/core/utils/loaderHelper.dart';
 import 'package:scrape_application/features/auth/screens/login_screen.dart';
 import 'package:scrape_application/features/auth/widgets/custom_button.dart';
 import 'package:scrape_application/features/auth/widgets/custom_textfield.dart';
@@ -19,7 +20,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final strings = AppStrings("en");
+    final strings = AppStrings();
 
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -39,32 +40,30 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     children: [
                       SizedBox(height: 20.h),
 
-                      // 🔹 Title
-                      Text('Create Account', style: AppTextStyles.heading),
+                      Text(
+                        strings.createAccount,
+                        style: AppTextStyles.heading.copyWith(fontSize: 28.sp),
+                      ),
 
                       SizedBox(height: 6.h),
 
-                      Text(
-                        "Sign up to get started!",
-                        style: AppTextStyles.body,
-                      ),
+                      Text(strings.signUpGetStarted, style: AppTextStyles.body),
 
                       SizedBox(height: 25.h),
 
-                      // 🔹 Card
                       Container(
                         width: double.infinity,
                         padding: EdgeInsets.all(16.w),
                         decoration: BoxDecoration(
                           color: AppColors.card,
-                          borderRadius: BorderRadius.circular(16.r),
+                          borderRadius: BorderRadius.circular(18.r),
                           border: Border.all(color: AppColors.border),
                         ),
                         child: Column(
                           children: [
                             buildTextField(
                               context: context,
-                              hintText: 'Enter full name',
+                              hintText: strings.enterName,
                               icon: Icons.person,
                             ),
 
@@ -72,7 +71,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                             buildTextField(
                               context: context,
-                              hintText: 'Enter your email',
+                              hintText: strings.enterEmail,
                               icon: Icons.email,
                             ),
 
@@ -80,7 +79,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                             buildTextField(
                               context: context,
-                              hintText: 'Create a password',
+                              hintText: strings.enterPassword,
                               icon: Icons.lock_outline,
                               isPassword: true,
                             ),
@@ -89,7 +88,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                             buildTextField(
                               context: context,
-                              hintText: 'Confirm password',
+                              hintText: strings.enterConfirmPassword,
                               icon: Icons.lock_outline,
                               isPassword: true,
                             ),
@@ -99,7 +98,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                       SizedBox(height: 16.h),
 
-                      // 🔹 Checkbox (center aligned)
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -107,14 +105,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             scale: 0.9,
                             child: Checkbox(
                               value: isChecked,
-                              materialTapTargetSize:
-                                  MaterialTapTargetSize.shrinkWrap,
-                              visualDensity: VisualDensity.compact,
                               activeColor: AppColors.highlight,
-                              side: BorderSide(color: AppColors.textSecondary),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(4.r),
-                              ),
+                              checkColor: Colors.black,
+                              side: BorderSide(color: AppColors.border),
                               onChanged: (value) {
                                 setState(() {
                                   isChecked = value!;
@@ -131,9 +124,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               text: TextSpan(
                                 style: AppTextStyles.body,
                                 children: [
-                                  const TextSpan(text: "I accept the "),
+                                  TextSpan(text: strings.acceptTerms),
                                   TextSpan(
-                                    text: "Terms of Service",
+                                    text: strings.termsOfService,
                                     style: TextStyle(
                                       color: AppColors.highlight,
                                       fontWeight: FontWeight.w600,
@@ -141,7 +134,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   ),
                                   const TextSpan(text: " & "),
                                   TextSpan(
-                                    text: "Privacy Policy",
+                                    text: strings.privacyPolicy,
                                     style: TextStyle(
                                       color: AppColors.highlight,
                                       fontWeight: FontWeight.w600,
@@ -156,34 +149,34 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                       SizedBox(height: 20.h),
 
-                      // 🔹 Button
                       buildButton(
+                        context: context,
                         text: strings.signUp,
                         onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => LoginScreen(),
-                            ),
-                          );
+                          redirection(context, LoginScreen());
                         },
                       ),
 
                       SizedBox(height: 20.h),
 
-                      // 🔹 Bottom Text
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            "Already have an account?",
+                            strings.alreadyHaveAccount,
                             style: AppTextStyles.body,
                           ),
+
                           SizedBox(width: 6.w),
-                          Text(
-                            'sign In',
-                            style: AppTextStyles.subHeading.copyWith(
-                              color: AppColors.highlight,
+
+                          GestureDetector(
+                            onTap: () => redirection(context, LoginScreen()),
+                            child: Text(
+                              strings.signIn,
+                              style: AppTextStyles.subHeading.copyWith(
+                                color: AppColors.highlight,
+                                fontSize: 15.sp,
+                              ),
                             ),
                           ),
                         ],
@@ -198,6 +191,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  void redirection(BuildContext context, Widget widget) async {
+    LoaderHelper.show(context);
+    await Future.delayed(const Duration(seconds: 3));
+    LoaderHelper.hide(context);
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (context) => widget),
+      (route) => false,
     );
   }
 }
