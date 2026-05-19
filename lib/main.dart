@@ -1,14 +1,26 @@
 import 'package:camera/camera.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:scrape_application/shared/widgets/bottom_nav_bar.dart';
+import 'package:provider/provider.dart';
+import 'package:scrape_application/features/auth/controllers/auth_controller.dart';
+import 'package:scrape_application/features/auth/screens/register_screen.dart';
+import 'firebase_options.dart';
 
 late List<CameraDescription> cameras;
 
-Future<void> main() async {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  cameras = await availableCameras(); 
-  runApp(const MyApp());
+
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  cameras = await availableCameras();
+
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => AuthController(),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -17,11 +29,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-      designSize: const Size(375, 812),
+      designSize: Size(375, 812),
+      minTextAdapt: true,
+      splitScreenMode: true,
       builder: (_, child) {
-        return MaterialApp(
+        return const MaterialApp(
           debugShowCheckedModeBanner: false,
-          home: AppBottomNav(),
+          home: RegisterScreen(),
         );
       },
     );

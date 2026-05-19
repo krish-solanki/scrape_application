@@ -10,48 +10,62 @@ Widget buildTextField({
   bool isPassword = false,
   TextEditingController? controller,
 }) {
-  return Container(
-    margin: EdgeInsets.only(bottom: 12.h),
-    decoration: BoxDecoration(
-      color: AppColors.surface,
-      borderRadius: BorderRadius.circular(14.r),
-      border: Border.all(color: AppColors.border),
-    ),
-    child: TextField(
-      controller: controller,
-      obscureText: isPassword,
-      style: AppTextStyles.subHeading.copyWith(fontSize: 14.sp),
-      cursorColor: AppColors.primary,
-      textAlignVertical: TextAlignVertical.center,
-      decoration: InputDecoration(
-        isDense: true,
-        hintText: hintText,
-        hintStyle: AppTextStyles.body,
-
-        border: InputBorder.none,
-
-        contentPadding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 12.w),
-
-        prefixIcon: Icon(icon, color: AppColors.primary, size: 20.sp),
-
-        suffixIcon: isPassword
-            ? Icon(
-                Icons.visibility_off,
-                color: AppColors.textSecondary,
-                size: 20.sp,
-              )
-            : null,
-
-        enabledBorder: OutlineInputBorder(
+  
+  ValueNotifier<bool> obscureText = ValueNotifier(isPassword);
+  return ValueListenableBuilder(
+    valueListenable: obscureText,
+    builder: (context, value, child) {
+      return Container(
+        margin: EdgeInsets.only(bottom: 12.h),
+        decoration: BoxDecoration(
+          color: AppColors.surface,
           borderRadius: BorderRadius.circular(14.r),
-          borderSide: BorderSide(color: AppColors.border),
+          border: Border.all(color: AppColors.border),
         ),
+        child: TextField(
+          controller: controller,
+          obscureText: value,
+          style: AppTextStyles.subHeading.copyWith(fontSize: 14.sp),
+          cursorColor: AppColors.primary,
+          textAlignVertical: TextAlignVertical.center,
+          decoration: InputDecoration(
+            isDense: true,
+            hintText: hintText,
+            hintStyle: AppTextStyles.body,
+            border: InputBorder.none,
 
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14.r),
-          borderSide: BorderSide(color: AppColors.primary, width: 1.5),
+            contentPadding: EdgeInsets.symmetric(
+              vertical: 12.h,
+              horizontal: 12.w,
+            ),
+
+            prefixIcon: Icon(icon, color: AppColors.primary, size: 20.sp),
+
+            suffixIcon: isPassword
+                ? GestureDetector(
+                    onTap: () {
+                      obscureText.value = !obscureText.value;
+                    },
+                    child: Icon(
+                      value ? Icons.visibility_off : Icons.visibility,
+                      color: AppColors.textSecondary,
+                      size: 20.sp,
+                    ),
+                  )
+                : null,
+
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(14.r),
+              borderSide: BorderSide(color: AppColors.border),
+            ),
+
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(14.r),
+              borderSide: BorderSide(color: AppColors.primary, width: 1.5),
+            ),
+          ),
         ),
-      ),
-    ),
+      );
+    },
   );
 }
