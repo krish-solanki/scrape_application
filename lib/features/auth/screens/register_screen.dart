@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:scrape_application/core/constants/app_colors.dart';
 import 'package:scrape_application/core/constants/app_strings.dart';
 import 'package:scrape_application/core/constants/app_text_style.dart';
-import 'package:scrape_application/core/utils/loaderHelper.dart';
 import 'package:scrape_application/core/utils/redirectionHelper.dart';
 import 'package:scrape_application/features/auth/controllers/auth_controller.dart';
 import 'package:scrape_application/features/auth/screens/login_screen.dart';

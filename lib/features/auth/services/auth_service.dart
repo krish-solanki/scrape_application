@@ -7,7 +7,7 @@ class AuthService {
 
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  Future<String?> registerUser({
+  Future<void> registerUser({
     required String name,
     required String email,
     required String password,
@@ -28,14 +28,14 @@ class AuthService {
       await firestore.collection('users').doc(user.uid).set(user.toMap());
     } on FirebaseAuthException catch (e) {
       if (e.code == 'email-already-in-use') {
-        return "User already registered";
+        throw "User already registered";
       }
       if (e.code == 'invalid-email') {
-        return "Invalid email address";
+        throw "Invalid email address";
       }
-      return e.message;
+      throw e.toString();
     } catch (e) {
-      return e.toString();
+      throw e.toString();
     }
   }
 

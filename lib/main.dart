@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:scrape_application/features/auth/controllers/auth_controller.dart';
-import 'package:scrape_application/features/auth/screens/register_screen.dart';
+import 'package:scrape_application/features/auth/screens/session_checker_screen.dart';
 import 'firebase_options.dart';
 
 late List<CameraDescription> cameras;
@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
       builder: (_, child) {
         return const MaterialApp(
           debugShowCheckedModeBanner: false,
-          home: RegisterScreen(),
+          home: SessionCheckerScreen(),
         );
       },
     );
