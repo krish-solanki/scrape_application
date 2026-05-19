@@ -9,6 +9,7 @@ Widget buildTextField({
   required IconData icon,
   bool isPassword = false,
   TextEditingController? controller,
+  bool isEmail = false
 }) {
   
   ValueNotifier<bool> obscureText = ValueNotifier(isPassword);
@@ -22,7 +23,8 @@ Widget buildTextField({
           borderRadius: BorderRadius.circular(14.r),
           border: Border.all(color: AppColors.border),
         ),
-        child: TextField(
+        child: TextFormField(
+          readOnly: isEmail,
           controller: controller,
           obscureText: value,
           style: AppTextStyles.subHeading.copyWith(fontSize: 14.sp),

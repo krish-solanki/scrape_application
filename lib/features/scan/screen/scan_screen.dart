@@ -121,7 +121,7 @@ class _ScanScreenState extends State<ScanScreen> {
                           color: AppColors.primary,
                           boxShadow: [
                             BoxShadow(
-                              color: AppColors.primary.withOpacity(0.6),
+                              color: AppColors.primary.withValues(alpha: 0.6),
                               blurRadius: 20,
                             ),
                           ],
@@ -170,7 +170,7 @@ class _ScanScreenState extends State<ScanScreen> {
         capturedImage = File(image.path);
       });
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
     }
   }
 }

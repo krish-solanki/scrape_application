@@ -71,7 +71,7 @@ class _InventoryScreenState extends State<InventoryScreen> {
               Container(
                 padding: EdgeInsets.all(12.w),
                 decoration: BoxDecoration(
-                  color: AppColors.highlight.withOpacity(0.2),
+                  color: AppColors.highlight.withValues(alpha: 0.2),
                   borderRadius: BorderRadius.circular(12.r),
                 ),
                 child: Row(
