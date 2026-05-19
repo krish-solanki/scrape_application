@@ -21,7 +21,7 @@ class _SessionCheckerScreenState extends State<SessionCheckerScreen> {
   }
 
   Future<void> checkSession() async {
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 1));
 
     final user = FirebaseAuth.instance.currentUser;
 
