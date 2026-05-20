@@ -5,6 +5,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:scrape_application/features/auth/controllers/auth_controller.dart';
 import 'package:scrape_application/features/auth/screens/session_checker_screen.dart';
+import 'package:scrape_application/features/dashboard/controllers/dashboard_controller.dart';
+import 'package:scrape_application/features/profile/controllers/profile_controller.dart';
 import 'firebase_options.dart';
 
 late List<CameraDescription> cameras;
@@ -13,11 +15,19 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
   cameras = await availableCameras();
 
   runApp(
-    ChangeNotifierProvider(
-      create: (_) => AuthController(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => AuthController()),
+
+        ChangeNotifierProvider(create: (_) => ProfileController()),
+
+        ChangeNotifierProvider(create: (_) => DashboardController()),
+      ],
+
       child: const MyApp(),
     ),
   );
