@@ -23,6 +23,7 @@ class AuthService {
         name: name,
         email: email,
         image: "",
+        phone: ""
       );
 
       await firestore.collection('users').doc(user.uid).set(user.toMap());

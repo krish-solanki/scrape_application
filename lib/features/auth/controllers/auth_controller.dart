@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:scrape_application/core/utils/loaderHelper.dart';
+import 'package:scrape_application/core/utils/redirectionHelper.dart';
 import 'package:scrape_application/features/auth/screens/login_screen.dart';
 import 'package:scrape_application/features/auth/services/auth_service.dart';
 import 'package:scrape_application/shared/widgets/bottom_nav_bar.dart';
@@ -31,10 +33,7 @@ class AuthController extends ChangeNotifier {
     }
 
     if (!isChecked) {
-      showMessage(
-        context,
-        "Please accept terms & conditions",
-      );
+      showMessage(context, "Please accept terms & conditions");
       return;
     }
 
@@ -52,16 +51,11 @@ class AuthController extends ChangeNotifier {
 
       LoaderHelper.hide(context);
 
-      showMessage(
-        context,
-        "Registration Successful",
-      );
+      showMessage(context, "Registration Successful");
 
       Navigator.pushAndRemoveUntil(
         context,
-        MaterialPageRoute(
-          builder: (_) => const LoginScreen(),
-        ),
+        MaterialPageRoute(builder: (_) => const LoginScreen()),
         (route) => false,
       );
     } catch (e) {
@@ -80,10 +74,7 @@ class AuthController extends ChangeNotifier {
     required String password,
   }) async {
     if (email.isEmpty || password.isEmpty) {
-      showMessage(
-        context,
-        "Please fill all details",
-      );
+      showMessage(context, "Please fill all details");
       return;
     }
 
@@ -92,18 +83,13 @@ class AuthController extends ChangeNotifier {
       notifyListeners();
       LoaderHelper.show(context);
 
-      await authService.loginUser(
-        email: email,
-        password: password,
-      );
+      await authService.loginUser(email: email, password: password);
 
       LoaderHelper.hide(context);
 
       Navigator.pushAndRemoveUntil(
         context,
-        MaterialPageRoute(
-          builder: (_) => const AppBottomNav(),
-        ),
+        MaterialPageRoute(builder: (_) => const AppBottomNav()),
         (route) => false,
       );
     } catch (e) {
@@ -116,14 +102,30 @@ class AuthController extends ChangeNotifier {
     }
   }
 
-  void showMessage(
-    BuildContext context,
-    String message,
-  ) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-      ),
-    );
+  Future<void> logout({required BuildContext context}) async {
+    try {
+      isLoading = true;
+      LoaderHelper.show(context);
+      await FirebaseAuth.instance.signOut();
+      LoaderHelper.hide(context);
+      isLoading = false;
+
+      PageRedirectionHelper.popScreenRedirection(
+        context: context,
+        widget: LoginScreen(),
+      );
+    } catch (e) {
+      LoaderHelper.hide(context);
+      isLoading = false;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(e.toString())));
+    }
+  }
+
+  void showMessage(BuildContext context, String message) {
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(message)));
   }
 }
