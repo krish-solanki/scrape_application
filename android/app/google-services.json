@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "522059764540",
+    "project_id": "scrape-application-3c34f",
+    "storage_bucket": "scrape-application-3c34f.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:522059764540:android:a40c89338a9dcd0c0ac439",
+        "android_client_info": {
+          "package_name": "com.example.scrape_application"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "522059764540-tdlm6ca3dh0he2974osscg2uaj0bkvhr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCW6rg9a4mOohxkjk7swV8hv0fR7pP-Wrs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "522059764540-tdlm6ca3dh0he2974osscg2uaj0bkvhr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

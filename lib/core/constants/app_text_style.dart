@@ -1,46 +1,47 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'app_colors.dart';
 
 class AppTextStyles {
-  static const String fontFamily = 'Poppins';
+  static  String fontFamily = 'Poppins';
 
-  static const TextStyle heading = TextStyle(
-    fontSize: 22,
+  static  TextStyle heading = TextStyle(
+    fontSize: 22.sp,
     fontWeight: FontWeight.bold,
     color: AppColors.textPrimary,
     fontFamily: fontFamily,
   );
 
-  static const TextStyle subHeading = TextStyle(
-    fontSize: 18,
+  static  TextStyle subHeading = TextStyle(
+    fontSize: 18.sp,
     fontWeight: FontWeight.w600,
     color: AppColors.textPrimary,
     fontFamily: fontFamily,
   );
 
-  static const TextStyle body = TextStyle(
-    fontSize: 14,
+  static  TextStyle body = TextStyle(
+    fontSize: 14.sp,
     fontWeight: FontWeight.normal,
     color: AppColors.textSecondary,
     fontFamily: fontFamily,
   );
 
-  static const TextStyle label = TextStyle(
-    fontSize: 12,
+  static  TextStyle label = TextStyle(
+    fontSize: 12.sp,
     fontWeight: FontWeight.w500,
     color: AppColors.textSecondary,
     fontFamily: fontFamily,
   );
 
-  static const TextStyle value = TextStyle(
-    fontSize: 16,
+  static  TextStyle value = TextStyle(
+    fontSize: 16.sp,
     fontWeight: FontWeight.bold,
     color: AppColors.primary,
     fontFamily: fontFamily,
   );
 
-  static const TextStyle button = TextStyle(
-    fontSize: 14,
+  static  TextStyle button = TextStyle(
+    fontSize: 14.sp,
     fontWeight: FontWeight.w600,
     color: Colors.black,
     fontFamily: fontFamily,

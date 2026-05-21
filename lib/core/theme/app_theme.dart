@@ -6,16 +6,16 @@ class AppTheme {
   // 🔷 LIGHT THEME
   static ThemeData lightTheme = ThemeData(
     brightness: Brightness.light,
-    scaffoldBackgroundColor: Colors.white,
+    scaffoldBackgroundColor: AppColors.background,
 
     primaryColor: AppColors.primary,
 
-    colorScheme: const ColorScheme.light(
+    colorScheme: ColorScheme.light(
       primary: AppColors.primary,
       secondary: AppColors.highlight,
     ),
 
-    textTheme: const TextTheme(
+    textTheme: TextTheme(
       headlineLarge: AppTextStyles.heading,
       titleMedium: AppTextStyles.subHeading,
       bodyMedium: AppTextStyles.body,
@@ -25,63 +25,14 @@ class AppTheme {
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
       fillColor: Colors.grey.shade100,
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
+      border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
     ),
 
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         backgroundColor: AppColors.highlight,
         foregroundColor: Colors.black,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
-      ),
-    ),
-  );
-
-  // 🔷 DARK THEME (YOUR LOGIN UI STYLE)
-  static ThemeData darkTheme = ThemeData(
-    brightness: Brightness.dark,
-    scaffoldBackgroundColor: AppColors.background,
-
-    primaryColor: AppColors.primary,
-
-    colorScheme: const ColorScheme.dark(
-      primary: AppColors.primary,
-      secondary: AppColors.highlight,
-    ),
-
-    textTheme: const TextTheme(
-      headlineLarge: AppTextStyles.heading,
-      titleMedium: AppTextStyles.subHeading,
-      bodyMedium: AppTextStyles.body,
-      labelMedium: AppTextStyles.label,
-    ),
-
-    inputDecorationTheme: InputDecorationTheme(
-      filled: true,
-      fillColor: AppColors.surface,
-
-      enabledBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: AppColors.border),
-        borderRadius: BorderRadius.circular(12),
-      ),
-
-      focusedBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: AppColors.accent, width: 1.5),
-        borderRadius: BorderRadius.circular(12),
-      ),
-    ),
-
-    elevatedButtonTheme: ElevatedButtonThemeData(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: AppColors.highlight,
-        foregroundColor: Colors.black,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       ),
     ),
   );
