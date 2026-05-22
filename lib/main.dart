@@ -4,10 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:scrape_application/features/auth/controllers/auth_controller.dart';
-import 'package:scrape_application/features/auth/screens/session_check_screen.dart';
 import 'package:scrape_application/features/dashboard/controller/dashboard_controller.dart';
 import 'package:scrape_application/features/profile/controller/profile_controller.dart';
+import 'package:scrape_application/features/scan/controllers/scan_controller.dart';
 import 'package:scrape_application/firebase_options.dart';
+import 'package:scrape_application/shared/widgets/bottom_nav_bar.dart';
 
 late List<CameraDescription> cameras;
 
@@ -25,6 +26,8 @@ void main() async {
         ChangeNotifierProvider(create: (_) => ProfileController()),
 
         ChangeNotifierProvider(create: (_) => DashboardController()),
+
+        ChangeNotifierProvider(create: (_) => ScanController()),
       ],
       child: const MyApp(),
     ),
@@ -43,7 +46,7 @@ class MyApp extends StatelessWidget {
       builder: (_, child) {
         return const MaterialApp(
           debugShowCheckedModeBanner: false,
-          home: SessionCheckerScreen(),
+          home: AppBottomNav(),
         );
       },
     );

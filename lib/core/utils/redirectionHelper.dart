@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class PageRedirectionHelper {
-  static popScreenRedirection({required BuildContext context, required Widget widget}) {
+  static void popScreenRedirection({required BuildContext context, required Widget widget}) {
     Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(builder: (_) => widget),

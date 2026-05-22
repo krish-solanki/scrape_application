@@ -1,12 +1,12 @@
-import 'package:flutter/material.dart';
 import 'package:scrape_application/core/constants/app_loader.dart';
+import 'package:flutter/material.dart';
 
 class LoaderHelper {
   static void show(BuildContext context) {
     showDialog(
       context: context,
       barrierDismissible: false,
-      barrierColor: Colors.black.withOpacity(0.3),
+      barrierColor: Colors.black.withValues(alpha: 0.3),
       builder: (context) {
         return const PopScope(
           canPop: false,
