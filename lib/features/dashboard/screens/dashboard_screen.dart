@@ -38,7 +38,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
             if (controller.isLoading) {
               return const Center(child: CircularProgressIndicator());
             }
-
             return Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.w),
 

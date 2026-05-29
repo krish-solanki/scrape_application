@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:scrape_application/features/ai/services/ai_service.dart';
 import 'package:scrape_application/features/auth/controllers/auth_controller.dart';
 import 'package:scrape_application/features/dashboard/controller/dashboard_controller.dart';
 import 'package:scrape_application/features/profile/controller/profile_controller.dart';
@@ -17,6 +18,7 @@ void main() async {
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   cameras = await availableCameras();
+  await AIService.instance.loadModel();
 
   runApp(
     MultiProvider(
