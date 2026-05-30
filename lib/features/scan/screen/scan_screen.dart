@@ -101,6 +101,19 @@ class _ScanScreenState extends State<ScanScreen> {
                     ),
                   ),
 
+                  if (provider.prediction != null)
+                    Padding(
+                      padding: EdgeInsets.only(top: 20.h),
+                      child: Text(
+                        "${provider.prediction} (${(provider.confidence * 100).toStringAsFixed(2)}%)",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18.sp,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+
                   SizedBox(height: 30.h),
 
                   provider.capturedImage == null
@@ -155,9 +168,7 @@ class _ScanScreenState extends State<ScanScreen> {
                                 child: GestureDetector(
                                   onTap: () async {
                                     if (provider.capturedImage != null) {
-                                      await provider.detectLabels(
-                                        provider.capturedImage!,
-                                      );
+                                      await provider.predictMetal();
                                     }
                                   },
                                   child: Container(

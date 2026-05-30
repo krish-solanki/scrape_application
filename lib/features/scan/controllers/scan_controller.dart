@@ -1,14 +1,53 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:google_mlkit_image_labeling/google_mlkit_image_labeling.dart';
+import 'package:scrape_application/features/scan/services/scan_service.dart';
 
 class ScanController extends ChangeNotifier {
   File? capturedImage;
+  String? prediction;
+  double confidence = 0;
 
-  final ImageLabeler imageLabeler = ImageLabeler(
-    options: ImageLabelerOptions(confidenceThreshold: 0.5),
-  );
+  final ScanService scanService = ScanService();
+
+  bool isLoading = false;
+
+  File? get image => capturedImage;
+
+  Future<void> initializeModel() async {
+    try {
+      isLoading = true;
+      notifyListeners();
+      await scanService.loadModel();
+      debugPrint("Model Loaded Successfully");
+    } catch (e) {
+      debugPrint("Model Load Error : $e");
+    } finally {
+      isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> predictMetal() async {
+    try {
+      debugPrint("predictMetal called");
+      if (capturedImage == null) return;
+
+      final result = await scanService.predictImage(capturedImage!);
+
+      prediction = result["label"];
+
+      confidence = result["confidence"];
+
+      notifyListeners();
+
+      debugPrint(
+        "Prediction: $prediction (${(confidence * 100).toStringAsFixed(2)}%)",
+      );
+      debugPrint("predictMetal ended");
+    } catch (e) {
+      debugPrint("Preducation Error: ${e.toString()}");
+    }
+  }
 
   void setImage(File image) {
     capturedImage = image;
@@ -18,31 +57,5 @@ class ScanController extends ChangeNotifier {
   void removeImage() {
     capturedImage = null;
     notifyListeners();
-  }
-
-  Future<void> detectLabels(File imageFile) async {
-    try {
-      final inputImage = InputImage.fromFile(imageFile);
-      final labels = await imageLabeler.processImage(inputImage);
-      print("============== AI LABELS ==============");
-      if (labels.isEmpty) {
-        print("No Labels Found");
-      }
-      for (ImageLabel label in labels) {
-        print("Label: ${label.label}");
-        print("Confidence: ${label.confidence}");
-        print("Index: ${label.index}");
-        print("--------------------------------");
-      }
-      print("=======================================");
-    } catch (e) {
-      print(e.toString());
-    }
-  }
-
-  @override
-  void dispose() {
-    imageLabeler.close();
-    super.dispose();
   }
 }

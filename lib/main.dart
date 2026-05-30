@@ -3,7 +3,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:scrape_application/features/ai/services/ai_service.dart';
 import 'package:scrape_application/features/auth/controllers/auth_controller.dart';
 import 'package:scrape_application/features/dashboard/controller/dashboard_controller.dart';
 import 'package:scrape_application/features/profile/controller/profile_controller.dart';
@@ -15,21 +14,18 @@ late List<CameraDescription> cameras;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   cameras = await availableCameras();
-  await AIService.instance.loadModel();
+  final scanController = ScanController();
+  await scanController.initializeModel();
 
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => AuthController()),
-
         ChangeNotifierProvider(create: (_) => ProfileController()),
-
         ChangeNotifierProvider(create: (_) => DashboardController()),
-
-        ChangeNotifierProvider(create: (_) => ScanController()),
+        ChangeNotifierProvider.value(value: scanController),
       ],
       child: const MyApp(),
     ),
@@ -42,7 +38,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-      designSize: Size(375, 812),
+      designSize: const Size(375, 812),
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (_, child) {
