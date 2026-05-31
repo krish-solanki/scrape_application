@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:scrape_application/features/auth/controllers/auth_controller.dart';
+import 'package:scrape_application/features/auth/screens/session_check_screen.dart';
 import 'package:scrape_application/features/dashboard/controller/dashboard_controller.dart';
 import 'package:scrape_application/features/profile/controller/profile_controller.dart';
 import 'package:scrape_application/features/scan/controllers/scan_controller.dart';
@@ -46,7 +47,7 @@ class MyApp extends StatelessWidget {
       builder: (_, child) {
         return const MaterialApp(
           debugShowCheckedModeBanner: false,
-          home: AppBottomNav(),
+          home: SessionCheckerScreen(),
         );
       },
     );

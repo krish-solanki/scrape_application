@@ -12,6 +12,7 @@ class ScanModel {
   final String description;
   final DateTime createdAt;
   final DateTime updatedAt;
+  final double totalPrice;
 
   ScanModel({
     required this.userId,
@@ -27,6 +28,7 @@ class ScanModel {
     required this.description,
     required this.createdAt,
     required this.updatedAt,
+    required this.totalPrice,
   });
 
   factory ScanModel.fromMap(Map<String, dynamic> map) {
@@ -48,6 +50,7 @@ class ScanModel {
       updatedAt: map['updatedAt'] != null
           ? DateTime.parse(map['updatedAt'])
           : DateTime.now(),
+      totalPrice: (map['totalPrice'] ?? 0).toDouble()
     );
   }
 
@@ -64,6 +67,7 @@ class ScanModel {
       'imageUrl': imageUrl,
       'estimatedPrice': estimatedPrice,
       'description': description,
+      'totalPrice': totalPrice,
       'createdAt': createdAt.toIso8601String(),
       'updatedAt': updatedAt.toIso8601String(),
     };

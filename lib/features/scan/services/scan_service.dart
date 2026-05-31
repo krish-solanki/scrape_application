@@ -54,8 +54,4 @@ class ScanService {
     }
     return {"label": labels[bestIndex], "confidence": bestScore};
   }
-
-  Future<void> saveData(ScanModel scanModel) async {
-    await FirebaseFirestore.instance.collection('scans').add(scanModel.toMap());
-  }
 }

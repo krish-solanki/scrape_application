@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:scrape_application/core/constants/app_colors.dart';
+import 'package:scrape_application/features/auth/controllers/auth_controller.dart';
 import 'package:scrape_application/features/auth/widgets/custom_textfield.dart';
 import 'package:scrape_application/features/scan/controllers/scan_controller.dart';
 import 'package:scrape_application/features/scan/widgets/custom_corner.dart';
@@ -316,7 +317,6 @@ class _ScanScreenState extends State<ScanScreen> {
                                       onPressed: () async =>
                                           await provider.saveLocalScan(
                                             context: context,
-                                            userId: '1234567890',
                                             name: nameController.text.trim(),
                                             weight: double.parse(
                                               weightController.text,
@@ -337,7 +337,19 @@ class _ScanScreenState extends State<ScanScreen> {
                                       context: context,
                                       text: "Save Online",
                                       color: AppColors.highlight,
-                                      onPressed: () {},
+                                      onPressed: () async =>
+                                          await provider.saveOnlineScan(
+                                            context: context,
+                                            name: nameController.text,
+                                            weight: double.parse(
+                                              weightController.text,
+                                            ),
+                                            estimatedPrice: double.parse(
+                                              priceController.text,
+                                            ),
+                                            description:
+                                                descriptionController.text,
+                                          ),
                                     ),
                                   ),
                                 ],
