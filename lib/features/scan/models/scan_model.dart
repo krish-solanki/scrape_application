@@ -3,11 +3,9 @@ class ScanModel {
   final String scanId;
   final String name;
   final String scrapType;
-  final int quantity;
+  final double confidence;
   final double weight;
   final String unit;
-  final String status;
-  final int remaining;
   final bool isFavourite;
   final String imageUrl;
   final double estimatedPrice;
@@ -20,11 +18,9 @@ class ScanModel {
     required this.scanId,
     required this.name,
     required this.scrapType,
-    required this.quantity,
+    required this.confidence,
     required this.weight,
     required this.unit,
-    required this.status,
-    required this.remaining,
     required this.isFavourite,
     required this.imageUrl,
     required this.estimatedPrice,
@@ -39,11 +35,9 @@ class ScanModel {
       scanId: map['scanId'] ?? '',
       name: map['name'] ?? '',
       scrapType: map['scrapType'] ?? '',
-      quantity: map['quantity'] ?? 0,
+      confidence: (map['confidence'] ?? 0).toDouble(),
       weight: (map['weight'] ?? 0).toDouble(),
       unit: map['unit'] ?? 'kg',
-      status: map['status'] ?? 'pending',
-      remaining: map['remaining'] ?? 0,
       isFavourite: map['isFavourite'] ?? false,
       imageUrl: map['imageUrl'] ?? '',
       estimatedPrice: (map['estimatedPrice'] ?? 0).toDouble(),
@@ -59,21 +53,19 @@ class ScanModel {
 
   Map<String, dynamic> toMap() {
     return {
-      "userId": userId,
-      "scanId": scanId,
-      "name": name,
-      "scrapType": scrapType,
-      "quantity": quantity,
-      "weight": weight,
-      "unit": unit,
-      "status": status,
-      "remaining": remaining,
-      "isFavourite": isFavourite,
-      "imageUrl": imageUrl,
-      "estimatedPrice": estimatedPrice,
-      "description": description,
-      "createdAt": createdAt.toIso8601String(),
-      "updatedAt": updatedAt.toIso8601String(),
+      'userId': userId,
+      'scanId': scanId,
+      'name': name,
+      'scrapType': scrapType,
+      'confidence': confidence,
+      'weight': weight,
+      'unit': unit,
+      'isFavourite': isFavourite,
+      'imageUrl': imageUrl,
+      'estimatedPrice': estimatedPrice,
+      'description': description,
+      'createdAt': createdAt.toIso8601String(),
+      'updatedAt': updatedAt.toIso8601String(),
     };
   }
 }

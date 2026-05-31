@@ -16,6 +16,8 @@ dependencies:
   firebase_auth: ^6.5.1
   cloud_firestore: ^6.4.1
   provider: ^6.1.5+1
+  hive:
+  hive_flutter:
 
   image_picker:
   image: ^4.5.4

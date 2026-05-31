@@ -1,8 +1,10 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:image/image.dart' as img;
+import 'package:scrape_application/features/scan/models/scan_model.dart';
 import 'package:tflite_flutter/tflite_flutter.dart';
 
 class ScanService {
@@ -11,7 +13,9 @@ class ScanService {
 
   Future<void> loadModel() async {
     debugPrint("Load Model Called");
-    interpreter = await Interpreter.fromAsset('assets/ml/metal_classifier.tflite');
+    interpreter = await Interpreter.fromAsset(
+      'assets/ml/metal_classifier.tflite',
+    );
 
     final labelData = await rootBundle.loadString('assets/ml/labels.txt');
 
@@ -49,5 +53,9 @@ class ScanService {
       }
     }
     return {"label": labels[bestIndex], "confidence": bestScore};
+  }
+
+  Future<void> saveData(ScanModel scanModel) async {
+    await FirebaseFirestore.instance.collection('scans').add(scanModel.toMap());
   }
 }

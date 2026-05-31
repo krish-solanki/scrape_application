@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:scrape_application/core/constants/app_colors.dart';
 import 'package:scrape_application/core/constants/app_text_style.dart';
@@ -10,6 +11,7 @@ Widget buildTextField({
   bool isPassword = false,
   TextEditingController? controller,
   bool isEmail = false,
+  TextInputType keyboardType = TextInputType.text,
 }) {
   return Container(
     margin: EdgeInsets.only(bottom: 12.h),
@@ -22,6 +24,7 @@ Widget buildTextField({
       controller: controller,
       readOnly: isEmail,
       obscureText: isPassword,
+      keyboardType: keyboardType,
       style: AppTextStyles.subHeading.copyWith(fontSize: 14.sp),
       cursorColor: AppColors.primary,
       textAlignVertical: TextAlignVertical.center,
