@@ -132,7 +132,7 @@ class ScanController extends ChangeNotifier {
       final totalPrice = weight * estimatedPrice;
       final imageBase64 = await imageToBase64(capturedImage!);
       final scan = ScanModel(
-        userId: 'LN6w3gQilNTLBqq2fhOhi5rrxj63',
+        userId: FirebaseAuth.instance.currentUser!.uid,
         scanId: DateTime.now().millisecondsSinceEpoch.toString(),
         name: name,
         scrapType: prediction!,

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:scrape_application/core/utils/loaderHelper.dart';
 import 'package:scrape_application/core/utils/redirectionHelper.dart';
 import 'package:scrape_application/features/auth/screens/login_screen.dart';
+import 'package:scrape_application/features/inventory/services/local_inventory_service.dart';
 import 'package:scrape_application/features/inventory/services/online_inventory_service.dart';
 import 'package:scrape_application/features/scan/models/scan_model.dart';
 
@@ -13,6 +14,7 @@ class InventoryController extends ChangeNotifier {
 
   bool isLoading = false;
   final onlineInventoryService = OnlineInventoryService();
+  final localInventoryService = LocalInventoryService();
 
   Future<void> getOnlineScans({required BuildContext context}) async {
     try {
@@ -51,10 +53,8 @@ class InventoryController extends ChangeNotifier {
 
   Future<void> getLocalScans() async {
     try {
-      localScans = await localScanService.getLocalScans();
-
+      localScans = await localInventoryService.getLocalScans();
       debugPrint("Local Data Length: ${localScans.length}");
-
       notifyListeners();
     } catch (e) {
       debugPrint(e.toString());
