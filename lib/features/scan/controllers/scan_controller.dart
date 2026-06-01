@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:convert';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -64,6 +66,7 @@ class ScanController extends ChangeNotifier {
     required double weight,
     required double estimatedPrice,
     required String description,
+    required String location,
   }) async {
     try {
       if (prediction == null || capturedImage == null) {
@@ -87,6 +90,7 @@ class ScanController extends ChangeNotifier {
         confidence: confidence,
         weight: weight,
         unit: 'kg',
+        location: location,
         isFavourite: false,
         imageUrl: imageBase64,
         estimatedPrice: estimatedPrice,
@@ -115,6 +119,7 @@ class ScanController extends ChangeNotifier {
     required double weight,
     required double estimatedPrice,
     required String description,
+    required String location,
   }) async {
     try {
       // final isLogin = await AuthController.isLoggedIn(context: context);
@@ -127,11 +132,12 @@ class ScanController extends ChangeNotifier {
       final totalPrice = weight * estimatedPrice;
       final imageBase64 = await imageToBase64(capturedImage!);
       final scan = ScanModel(
-        userId: AuthController.userId ?? '1234',
+        userId: 'LN6w3gQilNTLBqq2fhOhi5rrxj63',
         scanId: DateTime.now().millisecondsSinceEpoch.toString(),
         name: name,
         scrapType: prediction!,
         confidence: confidence,
+        location: location,
         weight: weight,
         unit: 'kg',
         isFavourite: false,

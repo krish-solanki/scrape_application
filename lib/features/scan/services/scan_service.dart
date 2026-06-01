@@ -1,10 +1,7 @@
 import 'dart:io';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:image/image.dart' as img;
-import 'package:scrape_application/features/scan/models/scan_model.dart';
 import 'package:tflite_flutter/tflite_flutter.dart';
 
 class ScanService {
