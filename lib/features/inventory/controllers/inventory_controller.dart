@@ -11,6 +11,9 @@ import 'package:scrape_application/features/scan/models/scan_model.dart';
 class InventoryController extends ChangeNotifier {
   List<ScanModel> onlineScans = [];
   List<ScanModel> localScans = [];
+  String selectedType = 'All';
+  String selectedSource = 'All';
+  String selectedWeight = 'All';
 
   bool isLoading = false;
   final onlineInventoryService = OnlineInventoryService();
@@ -59,5 +62,20 @@ class InventoryController extends ChangeNotifier {
     } catch (e) {
       debugPrint(e.toString());
     }
+  }
+
+  void changeType(String value) {
+    selectedType = value;
+    notifyListeners();
+  }
+
+  void changeSource(String value) {
+    selectedSource = value;
+    notifyListeners();
+  }
+
+  void changeWeight(String value) {
+    selectedWeight = value;
+    notifyListeners();
   }
 }
