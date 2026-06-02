@@ -93,9 +93,9 @@ class _InventoryScreenState extends State<InventoryScreen> {
                     builder: (context, provider, child) {
                       return buildDropdownTab(
                         value: provider.selectedSource,
-                        items: const ['All', 'Local', 'Online'],
+                        items: const ['Local', 'Online'],
                         onChanged: (value) {
-                          provider.changeSource(value!);
+                          provider.changeSource(value!, context);
                         },
                       );
                     },
@@ -150,65 +150,6 @@ class _InventoryScreenState extends State<InventoryScreen> {
               ),
 
               SizedBox(height: 16.h),
-
-              // Container(
-              //   padding: EdgeInsets.symmetric(vertical: 10.h),
-              //   decoration: BoxDecoration(
-              //     color: AppColors.card,
-              //     borderRadius: BorderRadius.circular(10.r),
-              //   ),
-              //   child: Row(
-              //     children: [
-              //       SizedBox(width: 10.w),
-
-              //       Expanded(
-              //         flex: 3,
-              //         child: Text("NAME", style: AppTextStyles.label),
-              //       ),
-
-              //       Expanded(
-              //         flex: 2,
-              //         child: Text("TYPE", style: AppTextStyles.label),
-              //       ),
-
-              //       Expanded(
-              //         flex: 2,
-              //         child: Text("WEIGHT", style: AppTextStyles.label),
-              //       ),
-
-              //       Expanded(
-              //         flex: 2,
-              //         child: Text("PRICE", style: AppTextStyles.label),
-              //       ),
-              //     ],
-              //   ),
-              // ),
-
-              // SizedBox(height: 10.h),
-
-              // Expanded(
-              //   child: Consumer<InventoryController>(
-              //     builder: (context, provider, child) {
-              //       if (provider.isLoading) {}
-
-              //       if (provider.onlineScans.isEmpty) {
-              //         return const Center(child: Text('No Data Found'));
-              //       }
-              //       return ListView.builder(
-              //         itemCount: provider.onlineScans.length,
-              //         itemBuilder: (context, index) {
-              //           final scan = provider.onlineScans[index];
-              //           return buildRow(
-              //             scan.name,
-              //             scan.scrapType,
-              //             "${scan.weight} ${scan.unit}",
-              //             AppColors.success,
-              //           );
-              //         },
-              //       );
-              //     },
-              //   ),
-              // ),
               Container(
                 padding: EdgeInsets.symmetric(vertical: 10.h),
                 decoration: BoxDecoration(
@@ -247,15 +188,14 @@ class _InventoryScreenState extends State<InventoryScreen> {
               Expanded(
                 child: Consumer<InventoryController>(
                   builder: (context, provider, child) {
-                    if (provider.isLoading) {}
-
-                    if (provider.localScans.isEmpty) {
+                    if (provider.displayScans.isEmpty) {
                       return const Center(child: Text('No Data Found'));
                     }
                     return ListView.builder(
-                      itemCount: provider.localScans.length,
+                      itemCount: provider.displayScans.length,
                       itemBuilder: (context, index) {
-                        final scan = provider.localScans[index];
+                        final scan = provider.displayScans[index];
+
                         return buildRow(
                           scan.name,
                           scan.scrapType,

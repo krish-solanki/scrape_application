@@ -12,7 +12,7 @@ class InventoryController extends ChangeNotifier {
   List<ScanModel> onlineScans = [];
   List<ScanModel> localScans = [];
   String selectedType = 'All';
-  String selectedSource = 'All';
+  String selectedSource = 'Local';
   String selectedWeight = 'All';
 
   bool isLoading = false;
@@ -64,13 +64,27 @@ class InventoryController extends ChangeNotifier {
     }
   }
 
+  List<ScanModel> get displayScans {
+    if (selectedSource == 'Online') {
+      return onlineScans;
+    }
+    return localScans;
+  }
+
   void changeType(String value) {
     selectedType = value;
     notifyListeners();
   }
 
-  void changeSource(String value) {
+  Future<void> changeSource(String value, BuildContext context) async {
     selectedSource = value;
+
+    if (value == 'Online') {
+      await getOnlineScans(context: context);
+    } else {
+      await getLocalScans();
+    }
+
     notifyListeners();
   }
 
