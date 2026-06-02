@@ -65,10 +65,35 @@ class InventoryController extends ChangeNotifier {
   }
 
   List<ScanModel> get displayScans {
-    if (selectedSource == 'Online') {
-      return onlineScans;
+    List<ScanModel> scans = selectedSource == 'Online'
+        ? onlineScans
+        : localScans;
+
+    if (selectedType != 'All') {
+      scans = scans.where((scan) {
+        return scan.scrapType.toLowerCase() == selectedType.toLowerCase();
+      }).toList();
     }
-    return localScans;
+
+    switch (selectedWeight) {
+      case '0-10 Kg':
+        scans = scans.where((e) => e.weight <= 10).toList();
+        break;
+
+      case '10-50 Kg':
+        scans = scans.where((e) => e.weight > 10 && e.weight <= 50).toList();
+        break;
+
+      case '50-100 Kg':
+        scans = scans.where((e) => e.weight > 50 && e.weight <= 100).toList();
+        break;
+
+      case '100+ Kg':
+        scans = scans.where((e) => e.weight > 100).toList();
+        break;
+    }
+
+    return scans;
   }
 
   void changeType(String value) {
@@ -78,13 +103,11 @@ class InventoryController extends ChangeNotifier {
 
   Future<void> changeSource(String value, BuildContext context) async {
     selectedSource = value;
-
     if (value == 'Online') {
       await getOnlineScans(context: context);
     } else {
       await getLocalScans();
     }
-
     notifyListeners();
   }
 

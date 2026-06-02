@@ -162,7 +162,7 @@ class _InventoryScreenState extends State<InventoryScreen> {
 
                     Expanded(
                       flex: 3,
-                      child: Text("NAME", style: AppTextStyles.label),
+                      child: Text("Label", style: AppTextStyles.label),
                     ),
 
                     Expanded(
@@ -173,11 +173,6 @@ class _InventoryScreenState extends State<InventoryScreen> {
                     Expanded(
                       flex: 2,
                       child: Text("WEIGHT", style: AppTextStyles.label),
-                    ),
-
-                    Expanded(
-                      flex: 2,
-                      child: Text("PRICE", style: AppTextStyles.label),
                     ),
                   ],
                 ),
