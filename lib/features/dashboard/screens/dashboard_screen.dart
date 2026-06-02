@@ -55,19 +55,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
 
                         children: [
-                          Text(
-                            strings.dashboard,
-                            style: AppTextStyles.heading.copyWith(
-                              fontSize: 26.sp,
-                            ),
-                          ),
-
-                          SizedBox(height: 4.h),
-
-                          Text(
-                            controller.user?.name ?? "",
-                            style: AppTextStyles.body,
-                          ),
+                          Text(strings.dashboard, style: AppTextStyles.heading),
                         ],
                       ),
 
@@ -79,14 +67,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
                           border: Border.all(
                             color: AppColors.primary,
-
-                            width: 1.5,
+                            width: 0.5,
                           ),
                         ),
 
                         child: CircleAvatar(
-                          radius: 20.r,
-
+                          radius: 17.r,
                           backgroundImage:
                               controller.user != null &&
                                   controller.user!.image.isNotEmpty
@@ -101,47 +87,32 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     ],
                   ),
 
-                  SizedBox(height: 24.h),
+                  SizedBox(height: 20.h),
 
                   Container(
                     padding: EdgeInsets.symmetric(
-                      horizontal: 14.w,
-                      vertical: 14.h,
+                      horizontal: 12.w,
+                      vertical: 12.h,
                     ),
-
                     decoration: BoxDecoration(
                       color: AppColors.surface,
-
-                      borderRadius: BorderRadius.circular(14.r),
-
-                      border: Border.all(color: AppColors.border),
+                      borderRadius: BorderRadius.circular(12.r),
+                      border: Border.all(color: AppColors.primary),
                     ),
-
                     child: Row(
                       children: [
                         Icon(
                           Icons.search,
                           color: AppColors.primary,
-                          size: 22.sp,
+                          size: 20.sp,
                         ),
-
                         SizedBox(width: 10.w),
-
-                        Text(
-                          "Search",
-                          style: AppTextStyles.body.copyWith(fontSize: 14.sp),
-                        ),
-
-                        const Spacer(),
-
-                        Icon(
-                          Icons.tune,
-                          color: AppColors.highlight,
-                          size: 22.sp,
-                        ),
+                        Text("Search", style: AppTextStyles.body),
+                        Spacer(),
+                        Icon(Icons.tune, color: AppColors.primary, size: 20.sp),
                       ],
                     ),
-                  ),
+                  ),  
 
                   SizedBox(height: 22.h),
 

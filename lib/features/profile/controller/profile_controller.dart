@@ -6,7 +6,6 @@ import 'package:scrape_application/features/profile/services/profile_service.dar
 class ProfileController extends ChangeNotifier {
   final ProfileService profileService = ProfileService();
   UserModel? user;
-
   bool isLoading = true;
 
   Future<void> getUserData() async {

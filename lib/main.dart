@@ -7,10 +7,10 @@ import 'package:provider/provider.dart';
 import 'package:scrape_application/features/auth/controllers/auth_controller.dart';
 import 'package:scrape_application/features/auth/screens/session_check_screen.dart';
 import 'package:scrape_application/features/dashboard/controller/dashboard_controller.dart';
+import 'package:scrape_application/features/inventory/controllers/inventory_controller.dart';
 import 'package:scrape_application/features/profile/controller/profile_controller.dart';
 import 'package:scrape_application/features/scan/controllers/scan_controller.dart';
 import 'package:scrape_application/firebase_options.dart';
-import 'package:scrape_application/shared/widgets/bottom_nav_bar.dart';
 
 late List<CameraDescription> cameras;
 
@@ -28,6 +28,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => AuthController()),
         ChangeNotifierProvider(create: (_) => ProfileController()),
         ChangeNotifierProvider(create: (_) => DashboardController()),
+        ChangeNotifierProvider(create: (_) => InventoryController()),
         ChangeNotifierProvider.value(value: scanController),
       ],
       child: const MyApp(),

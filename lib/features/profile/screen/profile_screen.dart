@@ -22,7 +22,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   bool isBiometricEnabled = true;
 
   final imagePicker = ImagePicker();
-  String? selectedImage;
+  String selectedImage = "";
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
@@ -35,15 +35,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   Future<void> loadData() async {
     final controller = context.read<ProfileController>();
-
     await controller.getUserData();
-
-    // if (controller.user != null) {
-    //   nameController.text = controller.user!.name;
-    //   emailController.text = controller.user!.email;
-    //   phoneController.text = controller.user!.phone;
-    //   selectedImage = controller.user!.image;
-    // }
   }
 
   @override
@@ -67,15 +59,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
 
                     children: [
-                      Row(
-                        children: [
-                          Icon(Icons.arrow_back, color: AppColors.textPrimary),
-
-                          SizedBox(width: 10.w),
-
-                          Text("Edit Profile", style: AppTextStyles.heading),
-                        ],
-                      ),
+                      Text("Edit Profile", style: AppTextStyles.heading),
 
                       GestureDetector(
                         onTap: () async {
@@ -308,6 +292,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       ),
     );
   }
+
   Future<void> pickImage() async {
     final XFile? file = await ImagePicker().pickImage(
       source: ImageSource.gallery,

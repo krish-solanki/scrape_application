@@ -8,7 +8,7 @@ import 'package:scrape_application/shared/widgets/bottom_nav_bar.dart';
 
 class AuthController extends ChangeNotifier {
   final AuthService authService = AuthService();
-
+  static String? userId;
   bool isLoading = false;
 
   Future<void> register({
@@ -79,17 +79,15 @@ class AuthController extends ChangeNotifier {
       isLoading = true;
       notifyListeners();
       LoaderHelper.show(context);
-      await FirebaseAuth.instance.signOut();
       await authService.loginUser(email: email, password: password);
       LoaderHelper.hide(context);
-
+      userId = FirebaseAuth.instance.currentUser!.uid;
       PageRedirectionHelper.popScreenRedirection(
         context: context,
         widget: AppBottomNav(),
       );
     } catch (e) {
       LoaderHelper.hide(context);
-
       showMessage(context, e.toString());
     } finally {
       isLoading = false;
@@ -103,6 +101,8 @@ class AuthController extends ChangeNotifier {
       notifyListeners();
       LoaderHelper.show(context);
       await FirebaseAuth.instance.signOut();
+      userId = null;
+      notifyListeners();
       LoaderHelper.hide(context);
       PageRedirectionHelper.popScreenRedirection(
         context: context,
@@ -112,7 +112,6 @@ class AuthController extends ChangeNotifier {
       if (isLoading) {
         LoaderHelper.hide(context);
       }
-
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text(e.toString())));
@@ -127,4 +126,21 @@ class AuthController extends ChangeNotifier {
       context,
     ).showSnackBar(SnackBar(content: Text(message)));
   }
+
+  static Future<bool> isLoggedIn({required BuildContext context}) async {
+    debugPrint('Method Called');
+    if (userId == null) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Login First')));
+      debugPrint('User Id ${userId}');
+      PageRedirectionHelper.popScreenRedirection(
+        context: context,
+        widget: LoginScreen(),
+      );
+      return false;
+    }
+    return true;
+  }
+
 }

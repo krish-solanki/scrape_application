@@ -1,5 +1,5 @@
-import 'package:scrape_application/core/constants/app_loader.dart';
 import 'package:flutter/material.dart';
+import 'package:scrape_application/core/constants/app_loader.dart';
 
 class LoaderHelper {
   static void show(BuildContext context) {
