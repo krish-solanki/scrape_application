@@ -21,12 +21,8 @@ class _InventoryScreenState extends State<InventoryScreen> {
   @override
   void initState() {
     super.initState();
-    // Future.microtask(() {
-    //   context.read<InventoryController>().getOnlineScans(context: context);
-    // });
-
     Future.microtask(() {
-      context.read<InventoryController>().getLocalScans();
+      context.read<InventoryController>().getLocalScans(context: context);
     });
   }
 

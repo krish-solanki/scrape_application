@@ -6,7 +6,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:scrape_application/core/utils/loaderHelper.dart';
-import 'package:scrape_application/features/auth/controllers/auth_controller.dart';
 import 'package:scrape_application/features/scan/models/scan_model.dart';
 import 'package:scrape_application/features/scan/services/local_scan_service.dart';
 import 'package:scrape_application/features/scan/services/online_scan_service.dart';

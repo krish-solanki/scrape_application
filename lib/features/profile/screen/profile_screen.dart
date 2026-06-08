@@ -42,48 +42,46 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.symmetric(horizontal: 20.w),
-
           child: Consumer<ProfileController>(
             builder: (context, controller, child) {
+              if (controller.user == null) {
+                return SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.8,
+                  child: const Center(child: CircularProgressIndicator()),
+                );
+              }
+
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-
                 children: [
                   SizedBox(height: 10.h),
-
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-
                     children: [
                       Text("Edit Profile", style: AppTextStyles.heading),
-
                       GestureDetector(
                         onTap: () async {
                           await context.read<ProfileController>().updateProfile(
                             context: context,
                             name: nameController.text,
                             phone: phoneController.text,
-                            image:
-                                selectedImage ?? controller.user?.image ?? "",
+                            image: selectedImage.isNotEmpty
+                                ? selectedImage
+                                : controller.user?.image ?? "",
                           );
                         },
-
                         child: Container(
                           padding: EdgeInsets.symmetric(
                             horizontal: 14.w,
                             vertical: 6.h,
                           ),
-
                           decoration: BoxDecoration(
                             color: AppColors.highlight,
-
                             borderRadius: BorderRadius.circular(10.r),
                           ),
-
                           child: Text("Save", style: AppTextStyles.button),
                         ),
                       ),
@@ -95,31 +93,26 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   Center(
                     child: Stack(
                       alignment: Alignment.bottomRight,
-
                       children: [
                         GestureDetector(
-                          onTap: () => pickImage(),
-
+                          onTap: pickImage,
                           child: Container(
                             padding: EdgeInsets.all(3.r),
-
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
-
                               border: Border.all(
                                 color: AppColors.primary,
-
                                 width: 2.w,
                               ),
                             ),
-
                             child: CircleAvatar(
                               radius: 45.r,
-
-                              backgroundImage:
-                                  selectedImage != null &&
-                                      selectedImage!.isNotEmpty
-                                  ? MemoryImage(base64Decode(selectedImage!))
+                              backgroundImage: selectedImage.isNotEmpty
+                                  ? MemoryImage(base64Decode(selectedImage))
+                                  : controller.user!.image.isNotEmpty
+                                  ? MemoryImage(
+                                      base64Decode(controller.user!.image),
+                                    )
                                   : const NetworkImage(
                                       'https://i.pravatar.cc/150?img=3',
                                     ),
@@ -129,13 +122,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
                         Container(
                           padding: EdgeInsets.all(6.r),
-
                           decoration: BoxDecoration(
                             color: AppColors.highlight,
-
                             shape: BoxShape.circle,
                           ),
-
                           child: Icon(
                             Icons.edit,
                             size: 16.sp,
@@ -150,14 +140,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
                   buildTextField(
                     context: context,
-                    hintText: controller.user!.name,
+                    hintText: controller.user?.name ?? "",
                     icon: Icons.person,
                     controller: nameController,
                   ),
 
                   buildTextField(
                     context: context,
-                    hintText: controller.user!.email,
+                    hintText: controller.user?.email ?? "",
                     icon: Icons.email,
                     controller: emailController,
                     isEmail: true,
@@ -165,7 +155,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
                   buildTextField(
                     context: context,
-                    hintText: controller.user!.phone,
+                    hintText: controller.user?.phone ?? "",
                     icon: Icons.phone,
                     controller: phoneController,
                   ),
@@ -174,18 +164,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
                   Container(
                     padding: EdgeInsets.all(16.w),
-
                     decoration: BoxDecoration(
                       color: AppColors.card,
-
                       borderRadius: BorderRadius.circular(16.r),
-
                       border: Border.all(color: AppColors.border),
                     ),
-
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-
                       children: [
                         Text("Security", style: AppTextStyles.subHeading),
 
@@ -200,16 +185,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             Expanded(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-
                                 children: [
                                   Text(
                                     "Change Password",
                                     style: AppTextStyles.body,
                                   ),
-
                                   Text(
                                     "Update your account password",
-
                                     style: AppTextStyles.label,
                                   ),
                                 ],
@@ -241,11 +223,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
                             Switch(
                               value: isBiometricEnabled,
-
                               thumbColor: WidgetStatePropertyAll(
                                 AppColors.highlight,
                               ),
-
                               onChanged: (val) {
                                 setState(() {
                                   isBiometricEnabled = val;
@@ -263,7 +243,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   SizedBox(
                     height: 45.h,
                     width: double.infinity,
-
                     child: ElevatedButton(
                       onPressed: () async {
                         await context.read<AuthController>().logout(
@@ -272,9 +251,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.highlight,
-
                         elevation: 0,
-
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12.r),
                         ),
@@ -308,11 +285,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   @override
   void dispose() {
     nameController.dispose();
-
     emailController.dispose();
-
     phoneController.dispose();
-
     super.dispose();
   }
 }

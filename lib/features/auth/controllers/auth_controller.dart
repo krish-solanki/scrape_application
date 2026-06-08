@@ -127,20 +127,10 @@ class AuthController extends ChangeNotifier {
     ).showSnackBar(SnackBar(content: Text(message)));
   }
 
-  static Future<bool> isLoggedIn({required BuildContext context}) async {
+  Future<void> isLoggedIn({required BuildContext context}) async {
     debugPrint('Method Called');
     if (userId == null) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('Login First')));
-      debugPrint('User Id ${userId}');
-      PageRedirectionHelper.popScreenRedirection(
-        context: context,
-        widget: LoginScreen(),
-      );
-      return false;
+      logout(context: context);
     }
-    return true;
   }
-
 }

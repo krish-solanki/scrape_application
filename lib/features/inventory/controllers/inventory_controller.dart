@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:scrape_application/core/utils/loaderHelper.dart';
 import 'package:scrape_application/core/utils/redirectionHelper.dart';
+import 'package:scrape_application/features/auth/controllers/auth_controller.dart';
 import 'package:scrape_application/features/auth/screens/login_screen.dart';
 import 'package:scrape_application/features/inventory/services/local_inventory_service.dart';
 import 'package:scrape_application/features/inventory/services/online_inventory_service.dart';
@@ -14,6 +15,7 @@ class InventoryController extends ChangeNotifier {
   String selectedType = 'All';
   String selectedSource = 'Local';
   String selectedWeight = 'All';
+  final authController = AuthController();
 
   bool isLoading = false;
   final onlineInventoryService = OnlineInventoryService();
@@ -21,8 +23,6 @@ class InventoryController extends ChangeNotifier {
 
   Future<void> getOnlineScans({required BuildContext context}) async {
     try {
-      debugPrint("Method Called");
-
       if (FirebaseAuth.instance.currentUser == null) {
         PageRedirectionHelper.popScreenRedirection(
           context: context,
@@ -54,8 +54,9 @@ class InventoryController extends ChangeNotifier {
     }
   }
 
-  Future<void> getLocalScans() async {
+  Future<void> getLocalScans({required BuildContext context}) async {
     try {
+      await authController.isLoggedIn(context: context);
       localScans = await localInventoryService.getLocalScans();
       debugPrint("Local Data Length: ${localScans.length}");
       notifyListeners();
@@ -106,7 +107,7 @@ class InventoryController extends ChangeNotifier {
     if (value == 'Online') {
       await getOnlineScans(context: context);
     } else {
-      await getLocalScans();
+      await getLocalScans(context: context);
     }
     notifyListeners();
   }
