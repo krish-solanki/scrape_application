@@ -33,7 +33,7 @@ class _AppLoaderState extends State<AppLoader>
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppColors.background.withOpacity(0.95),
+      color: AppColors.background.withValues(alpha: 0.95),
 
       child: Center(
         child: Column(
@@ -56,7 +56,7 @@ class _AppLoaderState extends State<AppLoader>
 
                   boxShadow: [
                     BoxShadow(
-                      color: AppColors.primary.withOpacity(0.35),
+                      color: AppColors.primary.withValues(alpha: 0.35),
                       blurRadius: 25,
                       spreadRadius: 2,
                     ),

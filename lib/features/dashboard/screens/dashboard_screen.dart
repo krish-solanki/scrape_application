@@ -8,6 +8,7 @@ import 'package:scrape_application/core/constants/app_strings.dart';
 import 'package:scrape_application/core/constants/app_text_style.dart';
 import 'package:scrape_application/features/dashboard/controller/dashboard_controller.dart';
 import 'package:scrape_application/features/dashboard/widgets/custom_listview.dart';
+import 'package:scrape_application/features/inventory/widgets/custom_dropdown_list.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -22,8 +23,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() {
-      context.read<DashboardController>().getUserData();
+
+    Future.microtask(() async {
+      final controller = context.read<DashboardController>();
+
+      await controller.getUserData();
+
+      if (controller.selectedScan == 'Local') {
+        await controller.getLocalScans(context: context);
+      } else {
+        await controller.getOnlineScans(context: context);
+      }
     });
   }
 
@@ -38,7 +48,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
             if (controller.isLoading) {
               return const Center(child: CircularProgressIndicator());
             }
-
             return Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.w),
 
@@ -56,19 +65,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
 
                         children: [
-                          Text(
-                            strings.dashboard,
-                            style: AppTextStyles.heading.copyWith(
-                              fontSize: 26.sp,
-                            ),
-                          ),
-
-                          SizedBox(height: 4.h),
-
-                          Text(
-                            controller.user?.name ?? "",
-                            style: AppTextStyles.body,
-                          ),
+                          Text(strings.dashboard, style: AppTextStyles.heading),
                         ],
                       ),
 
@@ -80,14 +77,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
                           border: Border.all(
                             color: AppColors.primary,
-
-                            width: 1.5,
+                            width: 0.5,
                           ),
                         ),
 
                         child: CircleAvatar(
-                          radius: 20.r,
-
+                          radius: 17.r,
                           backgroundImage:
                               controller.user != null &&
                                   controller.user!.image.isNotEmpty
@@ -102,44 +97,29 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     ],
                   ),
 
-                  SizedBox(height: 24.h),
+                  SizedBox(height: 20.h),
 
                   Container(
                     padding: EdgeInsets.symmetric(
-                      horizontal: 14.w,
-                      vertical: 14.h,
+                      horizontal: 12.w,
+                      vertical: 12.h,
                     ),
-
                     decoration: BoxDecoration(
                       color: AppColors.surface,
-
-                      borderRadius: BorderRadius.circular(14.r),
-
-                      border: Border.all(color: AppColors.border),
+                      borderRadius: BorderRadius.circular(12.r),
+                      border: Border.all(color: AppColors.primary),
                     ),
-
                     child: Row(
                       children: [
                         Icon(
                           Icons.search,
                           color: AppColors.primary,
-                          size: 22.sp,
+                          size: 20.sp,
                         ),
-
                         SizedBox(width: 10.w),
-
-                        Text(
-                          "Search",
-                          style: AppTextStyles.body.copyWith(fontSize: 14.sp),
-                        ),
-
-                        const Spacer(),
-
-                        Icon(
-                          Icons.tune,
-                          color: AppColors.highlight,
-                          size: 22.sp,
-                        ),
+                        Text("Search", style: AppTextStyles.body),
+                        Spacer(),
+                        Icon(Icons.tune, color: AppColors.primary, size: 20.sp),
                       ],
                     ),
                   ),
@@ -169,15 +149,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
                                 style: AppTextStyles.label,
                               ),
-
                               SizedBox(height: 8.h),
-
                               Text(
-                                "14.5 TONS",
-
-                                style: AppTextStyles.heading.copyWith(
-                                  fontSize: 24.sp,
-                                ),
+                                "${controller.totalWeight.toStringAsFixed(1)} KG",
+                                style: AppTextStyles.label,
                               ),
 
                               SizedBox(height: 8.h),
@@ -215,12 +190,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             SizedBox(
                               width: 90.w,
                               height: 90.w,
-
                               child: CircularProgressIndicator(
                                 value: 0.8,
-
                                 strokeWidth: 7.w,
-
                                 backgroundColor: AppColors.border,
 
                                 valueColor: AlwaysStoppedAnimation(
@@ -234,11 +206,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
                               children: [
                                 Text(
-                                  "₹2,80,500",
-
-                                  style: AppTextStyles.value.copyWith(
-                                    fontSize: 15.sp,
-                                  ),
+                                  "₹${controller.totalValue.toStringAsFixed(0)}",
+                                  style: AppTextStyles.label,
                                 ),
 
                                 SizedBox(height: 2.h),
@@ -274,25 +243,22 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         ),
                       ),
 
-                      Container(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 12.w,
-                          vertical: 6.h,
-                        ),
+                      Consumer<DashboardController>(
+                        builder: (context, provider, child) {
+                          return buildDropdownTab(
+                            value: provider.selectedScan,
+                            items: const ['Local', 'Online'],
+                            onChanged: (value) async {
+                              provider.changeMode(value!);
 
-                        decoration: BoxDecoration(
-                          color: AppColors.surface,
-
-                          borderRadius: BorderRadius.circular(30.r),
-                        ),
-
-                        child: Text(
-                          "View All",
-
-                          style: AppTextStyles.label.copyWith(
-                            color: AppColors.primary,
-                          ),
-                        ),
+                              if (value == 'Local') {
+                                await provider.getLocalScans(context: context);
+                              } else {
+                                await provider.getOnlineScans(context: context);
+                              }
+                            },
+                          );
+                        },
                       ),
                     ],
                   ),
@@ -300,13 +266,27 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   SizedBox(height: 16.h),
 
                   Expanded(
-                    child: ListView.builder(
-                      physics: const BouncingScrollPhysics(),
+                    child: Consumer<DashboardController>(
+                      builder: (context, provider, child) {
+                        if (provider.recentScans.isEmpty) {
+                          return const Center(child: Text("No Recent Scans"));
+                        }
 
-                      itemCount: 12,
+                        return ListView.builder(
+                          physics: const BouncingScrollPhysics(),
+                          itemCount: provider.recentScans.length,
+                          itemBuilder: (context, index) {
+                            final scan = provider.recentScans[index];
 
-                      itemBuilder: (context, index) {
-                        return buildListview();
+                            return buildListview(
+                              name: scan.name,
+                              scrapType: scan.scrapType,
+                              weight: "${scan.weight} ${scan.unit}",
+                              price: "₹${scan.totalPrice.toStringAsFixed(0)}",
+                              image: scan.imageUrl,
+                            );
+                          },
+                        );
                       },
                     ),
                   ),

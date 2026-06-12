@@ -2,8 +2,12 @@ import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 import 'package:scrape_application/core/constants/app_colors.dart';
+import 'package:scrape_application/features/auth/widgets/custom_textfield.dart';
+import 'package:scrape_application/features/scan/controllers/scan_controller.dart';
 import 'package:scrape_application/features/scan/widgets/custom_corner.dart';
+import 'package:scrape_application/features/scan/widgets/custom_row_button.dart';
 import 'package:scrape_application/main.dart';
 
 class ScanScreen extends StatefulWidget {
@@ -14,163 +18,379 @@ class ScanScreen extends StatefulWidget {
 }
 
 class _ScanScreenState extends State<ScanScreen> {
-  CameraController? controller;
-  Future<void>? _initializeControllerFuture;
-
-  File? capturedImage;
+  CameraController? cameraController;
+  Future<void>? initializeControllerFuture;
+  final nameController = TextEditingController();
+  final weightController = TextEditingController();
+  final priceController = TextEditingController();
+  final descriptionController = TextEditingController();
+  final locationController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-
-    controller = CameraController(cameras.first, ResolutionPreset.high);
-
-    _initializeControllerFuture = controller!.initialize();
+    cameraController = CameraController(cameras.first, ResolutionPreset.high);
+    initializeControllerFuture = cameraController!.initialize();
   }
 
   @override
   void dispose() {
-    controller?.dispose();
+    cameraController?.dispose();
+    nameController.dispose();
+    weightController.dispose();
+    priceController.dispose();
+    descriptionController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<ScanController>(context);
+
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: AppColors.background,
       body: FutureBuilder(
-        future: _initializeControllerFuture,
+        future: initializeControllerFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
-            return Stack(
-              children: [
-                Positioned.fill(child: Container(color: Colors.black)),
+            return SingleChildScrollView(
+              child: SafeArea(
+                child: Column(
+                  children: [
+                    SizedBox(height: 20.h),
 
-                Center(
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(16),
-                    child: SizedBox(
-                      width: 220.w,
-                      height: 250.h,
-                      child: capturedImage == null
-                          ? CameraPreview(controller!)
-                          : Image.file(capturedImage!, fit: BoxFit.cover),
-                    ),
-                  ),
-                ),
-
-                Center(
-                  child: SizedBox(
-                    width: 220.w,
-                    height: 250.h,
-                    child: Stack(
-                      children: [
-                        buildCorner(top: true, left: true),
-                        buildCorner(top: true, left: false),
-                        buildCorner(top: false, left: true),
-                        buildCorner(top: false, left: false),
-                      ],
-                    ),
-                  ),
-                ),
-
-                Positioned(
-                  top: 40,
-                  left: 16,
-                  right: 16,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
-                      Icon(Icons.arrow_back, color: Colors.white),
-                      Text(
-                        "Scan & Measure",
-                        style: TextStyle(color: Colors.white, fontSize: 18),
+                    Text(
+                      "AI Scrap Scanner",
+                      style: TextStyle(
+                        fontSize: 22.sp,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
                       ),
-                      Icon(Icons.camera_alt, color: Colors.amber),
-                    ],
-                  ),
-                ),
+                    ),
 
-                Positioned(
-                  bottom: 180,
-                  left: 20,
-                  right: 20,
-                  child: Column(
-                    children: const [
-                      Text(
-                        "Align item within frame",
-                        style: TextStyle(color: Colors.white, fontSize: 13),
-                        textAlign: TextAlign.center,
-                      ),
-                    ],
-                  ),
-                ),
+                    SizedBox(height: 40.h),
 
-                Positioned(
-                  bottom: 90,
-                  left: 0,
-                  right: 0,
-                  child: Center(
-                    child: GestureDetector(
-                      onTap: _captureImage,
+                    Center(
                       child: Container(
-                        width: 70,
-                        height: 70,
+                        width: 280.w,
+                        height: 400.h,
                         decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: AppColors.primary,
-                          boxShadow: [
-                            BoxShadow(
-                              color: AppColors.primary.withOpacity(0.6),
-                              blurRadius: 20,
+                          color: Colors.black,
+                          borderRadius: BorderRadius.circular(24.r),
+                        ),
+                        child: Stack(
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(24.r),
+                              child: SizedBox(
+                                width: 280.w,
+                                height: 400.h,
+                                child: provider.capturedImage == null
+                                    ? CameraPreview(cameraController!)
+                                    : Image.file(
+                                        provider.capturedImage!,
+                                        fit: BoxFit.cover,
+                                      ),
+                              ),
+                            ),
+
+                            SizedBox(
+                              width: 280.w,
+                              height: 400.h,
+                              child: Stack(
+                                children: [
+                                  buildCorner(top: true, left: true),
+                                  buildCorner(top: true, left: false),
+                                  buildCorner(top: false, left: true),
+                                  buildCorner(top: false, left: false),
+                                ],
+                              ),
                             ),
                           ],
                         ),
-                        child: const Icon(Icons.camera, color: Colors.black),
                       ),
                     ),
-                  ),
-                ),
 
-                Positioned(
-                  bottom: 20,
-                  left: 30,
-                  right: 30,
-                  child: const Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Icon(Icons.photo, color: Colors.white),
-                      Icon(Icons.flip_camera_ios, color: Colors.white),
-                    ],
-                  ),
+                    SizedBox(height: 10.h),
+
+                    if (provider.prediction != null)
+                      Container(
+                        margin: EdgeInsets.all(20.w),
+                        padding: EdgeInsets.all(16.w),
+                        decoration: BoxDecoration(
+                          color: Colors.white10,
+                          borderRadius: BorderRadius.circular(16.r),
+                        ),
+                        child: Column(
+                          children: [
+                            Text(
+                              "Scrap Type",
+                              style: TextStyle(
+                                color: Colors.grey,
+                                fontSize: 14.sp,
+                              ),
+                            ),
+
+                            SizedBox(height: 8.h),
+
+                            Text(
+                              provider.prediction!,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 24.sp,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+
+                            SizedBox(height: 12.h),
+
+                            Text(
+                              "Confidence ${(provider.confidence * 100).toStringAsFixed(2)}%",
+                              style: TextStyle(
+                                color: Colors.green,
+                                fontSize: 16.sp,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+
+                    SizedBox(height: 30.h),
+
+                    provider.capturedImage == null
+                        ? GestureDetector(
+                            onTap: captureImage,
+                            child: Container(
+                              width: 80.w,
+                              height: 80.h,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: AppColors.primary,
+                              ),
+                              child: const Icon(
+                                Icons.camera_alt,
+                                color: Colors.black,
+                                size: 35,
+                              ),
+                            ),
+                          )
+                        : Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 20.w),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      provider.prediction = null;
+                                      provider.confidence = 0;
+                                      provider.removeImage();
+                                    },
+                                    child: Container(
+                                      height: 55.h,
+                                      decoration: BoxDecoration(
+                                        color: Colors.red,
+                                        borderRadius: BorderRadius.circular(
+                                          14.r,
+                                        ),
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          "Cancel",
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 16.sp,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+
+                                SizedBox(width: 16.w),
+
+                                Expanded(
+                                  child: GestureDetector(
+                                    onTap: () async {
+                                      if (provider.capturedImage != null) {
+                                        await provider.predictMetal();
+                                      }
+                                    },
+                                    child: Container(
+                                      height: 55.h,
+                                      decoration: BoxDecoration(
+                                        color: AppColors.primary,
+                                        borderRadius: BorderRadius.circular(
+                                          14.r,
+                                        ),
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          "Done",
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 16.sp,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+
+                    SizedBox(height: 30.h),
+                    if (provider.confidence > 0 && provider.prediction != null)
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 20.w),
+                        child: Container(
+                          width: double.infinity,
+                          padding: EdgeInsets.symmetric(
+                            vertical: 18.h,
+                            horizontal: 16.w,
+                          ),
+                          decoration: BoxDecoration(
+                            color: AppColors.card,
+                            borderRadius: BorderRadius.circular(18.r),
+                            border: Border.all(
+                              color: AppColors.border,
+                              width: 1,
+                            ),
+                          ),
+                          child: Column(
+                            children: [
+                              buildTextField(
+                                context: context,
+                                hintText: "Enter Name",
+                                icon: Icons.message_outlined,
+                                controller: nameController,
+                              ),
+
+                              SizedBox(height: 15.h),
+
+                              buildTextField(
+                                context: context,
+                                hintText: provider.prediction!,
+                                icon: Icons.category_outlined,
+                                isEmail: true,
+                              ),
+
+                              SizedBox(height: 15.h),
+
+                              buildTextField(
+                                context: context,
+                                hintText: "Enter Weight",
+                                icon: Icons.scale_outlined,
+                                keyboardType: TextInputType.number,
+                                controller: weightController,
+                              ),
+
+                              SizedBox(height: 15.h),
+
+                              buildTextField(
+                                context: context,
+                                hintText: "Estimated Price",
+                                icon: Icons.currency_rupee,
+                                keyboardType: TextInputType.number,
+                                controller: priceController,
+                              ),
+
+                              SizedBox(height: 15.h),
+
+                              buildTextField(
+                                context: context,
+                                hintText: "Enter Location",
+                                icon: Icons.location_city_outlined,
+                                controller: locationController,
+                              ),
+                              SizedBox(height: 15.h),
+
+                              buildTextField(
+                                context: context,
+                                hintText: "Description",
+                                icon: Icons.description_outlined,
+                                controller: descriptionController,
+                              ),
+                              SizedBox(height: 15.h),
+
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: buildRowButton(
+                                      context: context,
+                                      text: "Save Local",
+                                      color: Colors.orange,
+                                      onPressed: () async =>
+                                          await provider.saveLocalScan(
+                                            context: context,
+                                            location: locationController.text
+                                                .trim(),
+                                            name: nameController.text.trim(),
+                                            weight: double.parse(
+                                              weightController.text,
+                                            ),
+                                            estimatedPrice: double.parse(
+                                              priceController.text,
+                                            ),
+                                            description: descriptionController
+                                                .text
+                                                .trim(),
+                                          ),
+                                    ),
+                                  ),
+
+                                  SizedBox(width: 12.w),
+                                  Expanded(
+                                    child: buildRowButton(
+                                      context: context,
+                                      text: "Save Online",
+                                      color: AppColors.highlight,
+                                      onPressed: () async =>
+                                          await provider.saveOnlineScan(
+                                            location: locationController.text
+                                                .trim(),
+                                            context: context,
+                                            name: nameController.text,
+                                            weight: double.parse(
+                                              weightController.text,
+                                            ),
+                                            estimatedPrice: double.parse(
+                                              priceController.text,
+                                            ),
+                                            description:
+                                                descriptionController.text,
+                                          ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    SizedBox(height: 20.h),
+                  ],
                 ),
-              ],
-            );
-          } else if (snapshot.hasError) {
-            return const Center(
-              child: Text(
-                "Camera Error",
-                style: TextStyle(color: Colors.white),
               ),
             );
-          } else {
-            return const Center(child: CircularProgressIndicator());
           }
+          return const Center(child: CircularProgressIndicator());
         },
       ),
     );
   }
 
-  Future<void> _captureImage() async {
-    try {
-      await _initializeControllerFuture;
-      final image = await controller!.takePicture();
+  Future<void> captureImage() async {
+    final provider = Provider.of<ScanController>(context, listen: false);
 
-      setState(() {
-        capturedImage = File(image.path);
-      });
+    try {
+      await initializeControllerFuture;
+      final image = await cameraController!.takePicture();
+      provider.setImage(File(image.path));
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
     }
   }
 }

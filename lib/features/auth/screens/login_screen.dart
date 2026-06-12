@@ -4,13 +4,10 @@ import 'package:provider/provider.dart';
 import 'package:scrape_application/core/constants/app_colors.dart';
 import 'package:scrape_application/core/constants/app_strings.dart';
 import 'package:scrape_application/core/constants/app_text_style.dart';
-import 'package:scrape_application/core/utils/loaderHelper.dart';
 import 'package:scrape_application/core/utils/redirectionHelper.dart';
 import 'package:scrape_application/features/auth/controllers/auth_controller.dart';
-import 'package:scrape_application/features/auth/screens/register_screen.dart';
 import 'package:scrape_application/features/auth/widgets/custom_button.dart';
 import 'package:scrape_application/features/auth/widgets/custom_textfield.dart';
-import 'package:scrape_application/shared/widgets/bottom_nav_bar.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
