@@ -13,9 +13,10 @@ class InventoryController extends ChangeNotifier {
   List<ScanModel> onlineScans = [];
   List<ScanModel> localScans = [];
   String selectedType = 'All';
-  String selectedSource = 'Local';
+  String selectedSource = 'Online';
   String selectedWeight = 'All';
   final authController = AuthController();
+  String searchQuery = '';
 
   bool isLoading = false;
   final onlineInventoryService = OnlineInventoryService();
@@ -35,9 +36,7 @@ class InventoryController extends ChangeNotifier {
       notifyListeners();
 
       LoaderHelper.show(context);
-
       debugPrint("Current UID: ${FirebaseAuth.instance.currentUser!.uid}");
-
       onlineScans = await onlineInventoryService.getOnlineScan(
         userId: FirebaseAuth.instance.currentUser!.uid,
       );
@@ -69,6 +68,13 @@ class InventoryController extends ChangeNotifier {
     List<ScanModel> scans = selectedSource == 'Online'
         ? onlineScans
         : localScans;
+
+    if (searchQuery.isNotEmpty) {
+      scans = scans.where((scan) {
+        return scan.name.toLowerCase().contains(searchQuery) ||
+            scan.scrapType.toLowerCase().contains(searchQuery);
+      }).toList();
+    }
 
     if (selectedType != 'All') {
       scans = scans.where((scan) {
@@ -109,6 +115,11 @@ class InventoryController extends ChangeNotifier {
     } else {
       await getLocalScans(context: context);
     }
+    notifyListeners();
+  }
+
+  void search(String value) {
+    searchQuery = value.toLowerCase();
     notifyListeners();
   }
 

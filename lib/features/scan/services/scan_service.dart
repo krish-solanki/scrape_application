@@ -13,9 +13,7 @@ class ScanService {
     interpreter = await Interpreter.fromAsset(
       'assets/ml/metal_classifier.tflite',
     );
-
     final labelData = await rootBundle.loadString('assets/ml/labels.txt');
-
     labels = labelData.split('\n').where((e) => e.trim().isNotEmpty).toList();
   }
 

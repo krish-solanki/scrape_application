@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -43,24 +45,39 @@ class _InventoryScreenState extends State<InventoryScreen> {
 
               SizedBox(height: 20.h),
 
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
-                decoration: BoxDecoration(
-                  color: AppColors.surface,
-                  borderRadius: BorderRadius.circular(12.r),
-                  border: Border.all(color: AppColors.primary),
-                ),
-                child: Row(
-                  children: [
-                    Icon(Icons.search, color: AppColors.primary, size: 20.sp),
-                    SizedBox(width: 10.w),
-                    Text("Search", style: AppTextStyles.body),
-                    Spacer(),
-                    Icon(Icons.tune, color: AppColors.primary, size: 20.sp),
-                  ],
+              TextField(
+                onChanged: (value) {
+                  context.read<InventoryController>().search(value);
+                },
+                decoration: InputDecoration(
+                  hintText: "Search Scrap",
+                  prefixIcon: const Icon(Icons.search),
+                  filled: true,
+                  fillColor: AppColors.surface,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12.r),
+                    borderSide: BorderSide.none,
+                  ),
                 ),
               ),
 
+              // Container(
+              //   padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
+              //   decoration: BoxDecoration(
+              //     color: AppColors.surface,
+              //     borderRadius: BorderRadius.circular(12.r),
+              //     border: Border.all(color: AppColors.primary),
+              //   ),
+              //   child: Row(
+              //     children: [
+              //       Icon(Icons.search, color: AppColors.primary, size: 20.sp),
+              //       SizedBox(width: 10.w),
+              //       Text("Search", style: AppTextStyles.body),
+              //       Spacer(),
+              //       Icon(Icons.tune, color: AppColors.primary, size: 20.sp),
+              //     ],
+              //   ),
+              // ),
               SizedBox(height: 15.h),
 
               Row(

@@ -26,9 +26,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
     Future.microtask(() async {
       final controller = context.read<DashboardController>();
-
       await controller.getUserData();
-
       if (controller.selectedScan == 'Local') {
         await controller.getLocalScans(context: context);
       } else {
@@ -95,33 +93,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         ),
                       ),
                     ],
-                  ),
-
-                  SizedBox(height: 20.h),
-
-                  Container(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 12.w,
-                      vertical: 12.h,
-                    ),
-                    decoration: BoxDecoration(
-                      color: AppColors.surface,
-                      borderRadius: BorderRadius.circular(12.r),
-                      border: Border.all(color: AppColors.primary),
-                    ),
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.search,
-                          color: AppColors.primary,
-                          size: 20.sp,
-                        ),
-                        SizedBox(width: 10.w),
-                        Text("Search", style: AppTextStyles.body),
-                        Spacer(),
-                        Icon(Icons.tune, color: AppColors.primary, size: 20.sp),
-                      ],
-                    ),
                   ),
 
                   SizedBox(height: 22.h),
@@ -249,6 +220,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             value: provider.selectedScan,
                             items: const ['Local', 'Online'],
                             onChanged: (value) async {
+                              if (value == provider.selectedScan) {
+                                return;
+                              }
+
                               provider.changeMode(value!);
 
                               if (value == 'Local') {

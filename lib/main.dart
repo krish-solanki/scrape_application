@@ -11,7 +11,6 @@ import 'package:scrape_application/features/inventory/controllers/inventory_cont
 import 'package:scrape_application/features/profile/controller/profile_controller.dart';
 import 'package:scrape_application/features/scan/controllers/scan_controller.dart';
 import 'package:scrape_application/firebase_options.dart';
-import 'package:scrape_application/shared/widgets/bottom_nav_bar.dart';
 
 late List<CameraDescription> cameras;
 
@@ -49,7 +48,8 @@ class MyApp extends StatelessWidget {
       builder: (_, child) {
         return const MaterialApp(
           debugShowCheckedModeBanner: false,
-          home: AppBottomNav(),
+          showPerformanceOverlay: true,
+          home: SessionCheckerScreen(),
         );
       },
     );
